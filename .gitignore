@@ -33,3 +33,5 @@ UnityLockFile
 # Builds
 *.apk
 *.unitypackage
+
+.idea
