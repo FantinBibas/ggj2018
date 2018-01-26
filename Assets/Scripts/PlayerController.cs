@@ -1,13 +1,20 @@
-﻿using JetBrains.Annotations;
+﻿using System.Collections;
+using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public Map Map;
+    private Map _map;
     public Vector3Int Position = Vector3Int.zero;
     public uint MovementsPerTurn = 4;
     [CanBeNull] private Path _objectivePath;
     private uint _objectiveIdx;
+
+    private void Awake()
+    {
+        _map = FindObjectOfType<Map>();
+    }
 
     public Vector3Int? NextPosition()
     {
@@ -19,22 +26,30 @@ public class PlayerController : MonoBehaviour
         return Position;
     }
 
-    private bool Move()
+    private IEnumerator Move()
     {
-        var nextPosition = NextPosition();
-        if (nextPosition == null) return false;
-        this.Position = nextPosition.Value;
+        Vector3Int? nextPosition = NextPosition();
+        if (nextPosition == null) yield break;
+        Vector3 target = nextPosition.Value - Position + transform.position;
+        Position = nextPosition.Value;
         _objectiveIdx++;
-        if (_objectivePath != null && _objectiveIdx != _objectivePath.Length) return true;
+        Vector3 from = transform.position;
+        float progress = 0;
+        while (progress < 1)
+        {
+            transform.position = Vector3.Lerp(from, target, progress);
+            progress += 0.1f;
+            yield return new WaitForEndOfFrame();
+        }
+        transform.position = target;
+        if (_objectivePath != null && _objectiveIdx != _objectivePath.Length) yield break;
         _objectiveIdx = 0;
         _objectivePath = null;
-        return true;
-
     }
 
     public Path GetPath(Vector3Int objective)
     {
-        return Map == null ? null : Map.NavigateTo(Position, objective);
+        return _map == null ? null : _map.NavigateTo(Position, objective);
     }
 
     public int GetNeededTurns(Path path)
@@ -44,20 +59,22 @@ public class PlayerController : MonoBehaviour
 
     public bool SetObjective(Vector3Int objective)
     {
-        _objectivePath = Map.NavigateTo(Position, objective);
+        _objectivePath = _map.NavigateTo(Position, objective);
         _objectiveIdx = 0;
         return _objectivePath != null;
     }
 
-    public bool DoTurn()
+    public IEnumerator DoTurn()
     {
         if (_objectivePath == null)
-            return false;
-        for (var i = 0; i < MovementsPerTurn; i++)
-            if (!Move())
+            yield break;
+        for (int i = 0; i < MovementsPerTurn; i++)
+        {
+            yield return Move();
+        }
+/*            if (!Move())
                 return false;
             else if (_objectivePath == null)
-                return true;
-        return true;
+                return true; */
     }
 }
