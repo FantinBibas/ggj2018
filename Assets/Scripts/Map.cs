@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -12,7 +14,7 @@ public class Map : MonoBehaviour
 
     private Grid _grid;
 
-    private List<Vector3Int> nodes;
+    private List<Vector3Int> _nodes;
 
     private void Start()
     {
@@ -27,8 +29,32 @@ public class Map : MonoBehaviour
         }
     }
 
+    private int GetNodeAt(Vector3Int pos)
+    {
+        for (int i = 0; i < _nodes.Count; i++)
+        {
+            if (pos.Equals(_nodes[i]))
+                return i;
+        }
+        return -1;
+    }
+
+    public Path NavigateTo(Vector3Int from, Vector3Int to)
+    {
+        int fromIdx = GetNodeAt(from);
+        int toIdx = GetNodeAt(to);
+        if (fromIdx == -1 || toIdx == -1)
+            return null;
+        List<int> closedSet = new List<int>();
+        List<int> openSet = new List<int>(fromIdx);
+        Dictionary<int, int> cameFrom = new Dictionary<int, int>();
+        Dictionary<int, int> gScore = _nodes.Select((n, i) => i).ToDictionary(i => i, i => -1);
+        return new Path(from, to);
+    }
+
     private void CreateNodes()
     {
+        _nodes = new List<Vector3Int>();
         foreach (Tilemap tilemap in _grid.GetComponentsInChildren<Tilemap>())
         {
             if (tilemap.CompareTag("Solid")) continue;
@@ -39,7 +65,7 @@ public class Map : MonoBehaviour
                     Vector3Int pos = new Vector3Int(x, y, 0);
                     if (tilemap.HasTile(pos))
                     {
-                        nodes.Add(pos);
+                        _nodes.Add(pos);
                     }
                 }
             }
