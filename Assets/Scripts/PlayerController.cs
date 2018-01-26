@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Map _map;
+    private Mouse _mouse;
     public Vector3Int Position = Vector3Int.zero;
     public uint MovementsPerTurn = 4;
     [CanBeNull] private Path _objectivePath;
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _map = FindObjectOfType<Map>();
+        _mouse = FindObjectOfType<Mouse>();
     }
 
     public Vector3Int? NextPosition()
@@ -63,7 +65,7 @@ public class PlayerController : MonoBehaviour
         _objectiveIdx = 0;
         return _objectivePath != null;
     }
-
+    
     public IEnumerator DoTurn()
     {
         if (_objectivePath == null)
