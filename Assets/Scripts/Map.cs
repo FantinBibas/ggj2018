@@ -117,7 +117,7 @@ public class Map : MonoBehaviour
         List<PathfindingNode> openSet = new List<PathfindingNode> {current};
         while (openSet.Count > 0)
         {
-            current = openSet.OrderByDescending(n => n.FScore).First();
+            current = openSet.OrderBy(n => n.FScore).First();
             if (current.Equals(to))
                 return current.ConstructPath();
             openSet.Remove(current);
