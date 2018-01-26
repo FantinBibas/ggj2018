@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             Map = FindObjectOfType<Grid>();
+            PlayerController player = FindObjectOfType<PlayerController>();
+            Debug.Log(player.SetObjective(new Vector3Int(5, 1, 0)));
+            StartCoroutine(player.DoTurn());
         }
     }
 }

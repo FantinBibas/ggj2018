@@ -15,7 +15,7 @@ public class Map : MonoBehaviour
 
     private bool[,] _nodes;
 
-    private void Start()
+    private void Awake()
     {
         _grid = GetComponent<Grid>();
         if (_grid == null)
@@ -30,9 +30,9 @@ public class Map : MonoBehaviour
 
     private bool HasNodeAt(Vector3Int pos)
     {
-        if (pos.x <= _nodes.GetLength(0))
+        if (pos.x >= _nodes.GetLength(0))
             return false;
-        return pos.y <= _nodes.GetLength(1) && _nodes[pos.x, pos.y];
+        return pos.y < _nodes.GetLength(1) && _nodes[pos.x, pos.y];
     }
 
     private class PathfindingNode
@@ -47,7 +47,7 @@ public class Map : MonoBehaviour
         {
             X = x;
             Y = y;
-            FScore = int.MaxValue;
+            FScore = 0;
             GScore = int.MaxValue;
             From = null;
         }
@@ -63,17 +63,17 @@ public class Map : MonoBehaviour
 
         public bool IsNeighboor(PathfindingNode node)
         {
-            return Math.Abs(node.X - X + node.Y - Y) == 1;
+            return (Math.Abs(node.X - X) + Math.Abs(node.Y - Y)) == 1;
         }
 
         public int Heuristic(PathfindingNode node)
         {
-            int rx = X - node.X;
-            int ry = Y - node.Y;
-            return rx * rx + ry * ry;
+            int rx = Math.Abs(X - node.X);
+            int ry = Math.Abs(Y - node.Y);
+            return rx + ry;
         }
 
-        public Vector3Int ToVector()
+        private Vector3Int ToVector()
         {
             return new Vector3Int(X, Y, 0);
         }
@@ -81,9 +81,12 @@ public class Map : MonoBehaviour
         public Path ConstructPath()
         {
             PathfindingNode node = this;
-            List<Vector3Int> vecs = new List<Vector3Int>();
+            List<Vector3Int> vecs = new List<Vector3Int> {node.ToVector()};
             while (node.From != null)
-                vecs.Add(node.ToVector());
+            {
+                vecs.Insert(0, node.ToVector());
+                node = node.From;
+            }
             return new Path(node.ToVector(), ToVector(), vecs);
         }
     }
@@ -93,23 +96,28 @@ public class Map : MonoBehaviour
         if (!HasNodeAt(from) || !HasNodeAt(to))
             return null;
         List<PathfindingNode> nodes = new List<PathfindingNode>();
+        PathfindingNode current = new PathfindingNode(from);
+        PathfindingNode toNode = new PathfindingNode(to);
         for (int x = 0; x < Width; x += 1)
         {
             for (int y = 0; y < Height; y += 1)
             {
-                if (_nodes[x, y])
-                    nodes.Add(new PathfindingNode(x, y));
+                if (!_nodes[x, y]) continue;
+                PathfindingNode node = new PathfindingNode(x, y);
+                nodes.Add(node);
+                node.FScore = node.Heuristic(toNode);
+                if (node.Equals(from))
+                    current = node;
+                if (node.Equals(to))
+                    toNode = node;
             }
         }
-        PathfindingNode current = new PathfindingNode(from);
-        nodes.Add(current);
-        PathfindingNode toNode = new PathfindingNode(to);
-        nodes.Add(toNode);
+        current.GScore = 0;
         List<PathfindingNode> closedSet = new List<PathfindingNode>();
         List<PathfindingNode> openSet = new List<PathfindingNode> {current};
         while (openSet.Count > 0)
         {
-            current = nodes.OrderByDescending(n => n.FScore).First();
+            current = openSet.OrderByDescending(n => n.FScore).First();
             if (current.Equals(to))
                 return current.ConstructPath();
             openSet.Remove(current);
@@ -141,7 +149,7 @@ public class Map : MonoBehaviour
             {
                 for (int y = 0; y < Height; y += 1)
                 {
-                    Vector3Int pos = new Vector3Int(x, y, 0);
+                    Vector3Int pos = new Vector3Int(x + X, y + Y, 0);
                     if (tilemap.HasTile(pos))
                     {
                         _nodes[x, y] = true;
