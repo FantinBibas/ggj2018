@@ -15,6 +15,11 @@ public class Path : IEnumerable<Vector3Int>
     }
 
     public Path(Vector3Int start, Vector3Int end, params Vector3Int[] nodes)
+        : this(start, end, (IEnumerable<Vector3Int>) nodes)
+    {
+    }
+
+    public Path(Vector3Int start, Vector3Int end, IEnumerable<Vector3Int> nodes)
     {
         Start = start;
         End = end;
