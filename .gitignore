@@ -34,4 +34,4 @@ UnityLockFile
 *.apk
 *.unitypackage
 
-.idea
+.idea/
