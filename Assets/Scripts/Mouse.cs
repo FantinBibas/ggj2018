@@ -4,6 +4,7 @@ using UnityEngine.Tilemaps;
 public class Mouse : MonoBehaviour
 {
     public Tile PathRenderTile;
+    public Tile MouseRenderTile;
 
     private Map _map;
     private Tilemap _renderMap;
@@ -42,16 +43,18 @@ public class Mouse : MonoBehaviour
         _renderMap.ClearAllTiles();
         Path path = _map.NavigateTo(_player.Position, _prevPos);
         if (path == null) return;
-        while (path.Length != 0)
+        int i = _player.RemainingMoves;
+        while (path.Length != 0 && i > 0)
         {
             Vector3Int node = path.Next();
-            _renderMap.SetTile(node + _map.TopLeft, PathRenderTile);
+            _renderMap.SetTile(node + _map.TopLeft, path.Length == 0 || i == 1 ? MouseRenderTile : PathRenderTile);
+            i -= 1;
         }
     }
 
     private void Update()
     {
-        if (!GameManager.Instance.PlayerTurn || _player.IsMoving) return;
+        if (!GameManager.Instance.PlayerTurn || _player.IsMoving || _player.HasObjective()) return;
         Vector3Int mousePosition = PosOnMap();
         if (!IsValidCoord(mousePosition)) return;
         if (Input.GetMouseButton(1))
@@ -62,7 +65,7 @@ public class Mouse : MonoBehaviour
         else if (_prevPos != mousePosition)
         {
             _prevPos = mousePosition;
-     //       RenderPath();
+            RenderPath();
         }
     }
 }

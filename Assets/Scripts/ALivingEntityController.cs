@@ -18,6 +18,8 @@ public abstract class ALivingEntityController : MonoBehaviour, ITurnBasedEntity
 
     public bool IsCurrentTurn { get; private set; }
 
+    public int RemainingMoves { get; private set; }
+
     private void Awake()
     {
         Direction = new Vector3(1, 0, 0);
@@ -29,6 +31,8 @@ public abstract class ALivingEntityController : MonoBehaviour, ITurnBasedEntity
     public void SetObjective(Vector3Int target)
     {
         _objective = GameManager.Instance.Map.NavigateTo(Position, target);
+        if (_objective == null || _objective.Length == 0)
+            _objective = null;
     }
 
     protected virtual IEnumerator OnObjectiveReached()
@@ -78,6 +82,7 @@ public abstract class ALivingEntityController : MonoBehaviour, ITurnBasedEntity
     public IEnumerator DoTurn()
     {
         IsCurrentTurn = true;
+        RemainingMoves = MovePerTurn;
         if (!_init)
         {
             yield return OnObjectiveReached();
@@ -85,8 +90,9 @@ public abstract class ALivingEntityController : MonoBehaviour, ITurnBasedEntity
         }
         yield return PreTurn();
         IsMoving = true;
-        for (int i = 0; i < MovePerTurn; i += 1)
+        while (RemainingMoves > 0)
         {
+            RemainingMoves -= 1;
             yield return MoveToNext();
         }
         IsMoving = false;
@@ -97,5 +103,10 @@ public abstract class ALivingEntityController : MonoBehaviour, ITurnBasedEntity
     public bool HasObjective()
     {
         return _objective != null;
+    }
+
+    public void CancelObjective()
+    {
+        _objective = null;
     }
 }

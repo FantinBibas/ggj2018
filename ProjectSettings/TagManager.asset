@@ -45,6 +45,9 @@ TagManager:
   - name: Ground
     uniqueID: 3232529267
     locked: 0
+  - name: Shadows
+    uniqueID: 3257141611
+    locked: 0
   - name: Objects
     uniqueID: 2559170751
     locked: 0
