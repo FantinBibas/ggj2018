@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
         {
             if (entity.CompareTag("Guard"))
             {
-                RaycastHit hit;
+                RaycastHit2D hit;
                 GuardController guard = entity.GetComponent<GuardController>();
                 Vector3 rayDirection = _player.transform.position - entity.transform.position;
                 float rayRange = Vector3.Distance(_player.transform.position, entity.transform.position);
@@ -63,11 +63,10 @@ public class GameManager : MonoBehaviour
                     rayRange < guard.ViewRange &&
                     rayRange <= guard.ViewRange)
                 {
-                    Debug.Log("View Player " + Vector3.Angle(rayDirection, entity.Direction));
-                    if (Physics.Raycast(entity.transform.position, rayDirection, out hit, guard.ViewRange))
+                    hit = Physics2D.Raycast(entity.transform.position, rayDirection, guard.ViewRange);
+                    if (hit.transform.CompareTag("Player"))
                     {
-                        Debug.Log("Hit something");
-                        //return hit.transform.CompareTag("Player");
+                        Debug.Log("Hit Player");
                     }
                 }
             }
