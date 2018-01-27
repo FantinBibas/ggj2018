@@ -1,9 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class Mouse : MonoBehaviour
 {
     public Tile PathRenderTile;
+    public Tile UpArrowRenderTile;
+    public Tile DownArrowRenderTile;
+    public Tile LeftArrowRenderTile;
+    public Tile RightArrowRenderTile;
     public Tile MouseRenderTile;
 
     private Map _map;
@@ -38,17 +43,26 @@ public class Mouse : MonoBehaviour
         return _map.Width > pos.x && pos.x >= 0 && _map.Height > pos.y && pos.y >= 0;
     }
 
+    private Tile GetTile(Vector3 direction)
+    {
+        if (direction.x < 0)
+            return LeftArrowRenderTile;
+        if (direction.x > 0)
+            return RightArrowRenderTile;
+        return direction.y < 0 ? DownArrowRenderTile : UpArrowRenderTile;
+    }
+
     private void RenderPath()
     {
         _renderMap.ClearAllTiles();
         Path path = _map.NavigateTo(_player.Position, _prevPos);
         if (path == null) return;
         _renderMap.SetTile(_prevPos + _map.TopLeft, MouseRenderTile);
-        int i = _player.RemainingMoves;
-        while (path.Length != 0 && i > 0)
+        int i = Math.Min(path.Length, _player.RemainingMoves);
+        while (i > 0)
         {
             Vector3Int node = path.Next();
-            _renderMap.SetTile(node + _map.TopLeft, PathRenderTile);
+            _renderMap.SetTile(node + _map.TopLeft, i == 1 ? PathRenderTile : GetTile(path.Direction));
             i -= 1;
         }
     }

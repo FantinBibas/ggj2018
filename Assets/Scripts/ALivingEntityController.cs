@@ -29,6 +29,11 @@ public abstract class ALivingEntityController : MonoBehaviour, ITurnBasedEntity
         IsMoving = false;
         _init = false;
         _animator = GetComponent<Animator>();
+        Init();
+    }
+
+    protected virtual void Init()
+    {
     }
 
     public void SetObjective(Vector3Int target)

@@ -14,7 +14,7 @@ public class GuardController : ALivingEntityController
     public ELoopMode LoopMode;
     
     public Vector2Int[] Waypoints;
-    private int _currentWaypointIndex;
+    public int _currentWaypointIndex;
     public float AudioRange = 2f;
     public float ViewRange = 10f;
     public float ViewAngle = 120f;
@@ -23,12 +23,12 @@ public class GuardController : ALivingEntityController
     {
         get
         {
-            _currentWaypointIndex = (_currentWaypointIndex += 1) % Waypoints.Length;
+            _currentWaypointIndex = (_currentWaypointIndex + 1) % Waypoints.Length;
             return Waypoints[_currentWaypointIndex];
         }
     }
 
-    private void Start()
+    protected override void Init()
     {
         _currentWaypointIndex = 0;
         if (LoopMode != ELoopMode.REVERSE || Waypoints.Length <= 2) return;
