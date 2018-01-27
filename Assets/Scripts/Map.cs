@@ -7,10 +7,10 @@ using UnityEngine.Tilemaps;
 [RequireComponent(typeof(Grid))]
 public class Map : MonoBehaviour
 {
-    public int X;
-    public int Y;
-    public int Width;
-    public int Height;
+    public int X { get; private set; }
+    public int Y { get; private set; }
+    public int Width { get; private set; }
+    public int Height { get; private set; }
     public Tile StationTile;
     public Vector3Int[] Stations;
     
@@ -24,13 +24,34 @@ public class Map : MonoBehaviour
 
     private bool[,] _nodes;
 
+    private void CalculateBounds()
+    {
+        int minx = 0;
+        int miny = 0;
+        int maxx = 0;
+        int maxy = 0;
+        foreach (Tilemap t in Grid.GetComponentsInChildren<Tilemap>())
+        {
+            BoundsInt b = t.cellBounds;
+            if (b.xMin < minx)
+                minx = b.xMin;
+            if (b.yMin < miny)
+                miny = b.yMin;
+            if (b.xMax > maxx)
+                maxx = b.xMax;
+            if (b.yMax > maxy)
+                maxy = b.yMax;
+        }
+        X = minx;
+        Y = miny;
+        Width = maxx - minx;
+        Height = maxy - miny;        
+    }
+    
     private void Awake()
     {
         Grid = GetComponent<Grid>();
-        if (Grid == null)
-        {
-            Destroy(this);
-        }
+        CalculateBounds();
     }
 
     public void Init()
@@ -43,7 +64,15 @@ public class Map : MonoBehaviour
         tilemapGameObject.tag = "Ignore";
         foreach (Vector3Int station in Stations)
             tilemap.SetTile(station + TopLeft, StationTile);
+        CalculateBounds();
         CreateNodes();
+    }
+
+    public bool IsSolid(Vector3Int pos)
+    {
+        if (pos.x < 0 || pos.x >= Width || pos.y < 0 || pos.y >= Height)
+            return true;
+        return !_nodes[pos.x, pos.y];
     }
 
     private bool HasNodeAt(Vector3Int pos)
@@ -205,9 +234,9 @@ public class Map : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(new Vector3(X + Width / 2, Y + Height / 2), new Vector3(Width, Height));
-        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(new Vector3(X + Width / 2, Y + Height / 2) , new Vector3(Width, Height));
+       /* Gizmos.color = Color.yellow;
         foreach (Vector3Int station in Stations)
-            Gizmos.DrawWireSphere(station + TopLeft + new Vector3(0.5f, 0.5f, 0), 0.25f);
+            Gizmos.DrawWireSphere(station + new Vector3(0.5f, 0.5f, 0), 0.25f); */
     }
 }

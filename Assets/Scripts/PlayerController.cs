@@ -18,8 +18,9 @@ public class PlayerController : ALivingEntityController
 
     protected override IEnumerator OnObjectiveReached()
     {
-        if (RemainingMoves > 0)
-            yield return AwaitOrder();
+      //  if (RemainingMoves > 0)
+      //      yield return AwaitOrder();
+        yield break;
     }
 
     protected override IEnumerator PostTurn()

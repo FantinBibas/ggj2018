@@ -65,6 +65,8 @@ public class GameManager : MonoBehaviour
         Map.gameObject.gameObject.SetActive(true);
     }
 
+    
+    
 /*    private void Update()
     {
         foreach (ALivingEntityController entity in _entities)
