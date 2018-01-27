@@ -8,17 +8,11 @@ public class Room : MonoBehaviour
 {
     public Vector2Int Size;
     public RoomDoor[] Doors;
-    private Vector2Int Pos;
+    public Vector2Int Pos { get; set; }
 
     public static bool CheckDoor(RoomDoor Door)
     {
         return Door && Door.isValid();
-    }
-   
-    public bool AddToGrid(Grid grid)
-    {
-        /* Merge content + grid aux coord pos*/
-        return true;
     }
 
     public Vector2Int PosFromDoor(RoomDoor door, Vector2Int pos)
