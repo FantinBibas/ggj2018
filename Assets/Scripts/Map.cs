@@ -77,9 +77,9 @@ public class Map : MonoBehaviour
 
     private bool HasNodeAt(Vector3Int pos)
     {
-        if (pos.x >= _nodes.GetLength(0))
+        if (pos.x < 0 || pos.x >= _nodes.GetLength(0))
             return false;
-        return pos.y < _nodes.GetLength(1) && _nodes[pos.x, pos.y];
+        return pos.y >= 0 && pos.y < _nodes.GetLength(1) && _nodes[pos.x, pos.y];
     }
 
     public void RemoveStationAt(Vector3Int pos)
