@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public abstract class ALivingEntityController : MonoBehaviour
+public abstract class ALivingEntityController : MonoBehaviour, ITurnBasedEntity
 {
     private const int SMOOTH_MOVEMENT_STEPS = 10;
 
@@ -12,11 +12,16 @@ public abstract class ALivingEntityController : MonoBehaviour
 
     public Vector3Int Position { get; private set; }
     public bool IsMoving { get; private set; }
-    
+
+    private bool _init;
+
+    public bool IsCurrentTurn { get; private set; }
+
     private void Awake()
     {
         Position = new Vector3Int(StartPosition.x, StartPosition.y, 0);
         IsMoving = false;
+        _init = false;
     }
 
     public void SetObjective(Vector3Int target)
@@ -31,7 +36,7 @@ public abstract class ALivingEntityController : MonoBehaviour
 
     private IEnumerator MoveToNext()
     {
-        if (_objective == null)
+        if (_objective == null || _objective.Length == 0)
             yield break;
         Vector3Int position = _objective.Next();
         Vector3 target = transform.position + (position - Position);
@@ -69,6 +74,12 @@ public abstract class ALivingEntityController : MonoBehaviour
 
     public IEnumerator DoTurn()
     {
+        IsCurrentTurn = true;
+        if (!_init)
+        {
+            yield return OnObjectiveReached();
+            _init = true;
+        }
         yield return PreTurn();
         IsMoving = true;
         for (int i = 0; i < MovePerTurn; i += 1)
@@ -77,6 +88,7 @@ public abstract class ALivingEntityController : MonoBehaviour
         }
         IsMoving = false;
         yield return PostTurn();
+        IsCurrentTurn = false;
     }
 
     public bool HasObjective()

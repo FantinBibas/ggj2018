@@ -88,7 +88,7 @@ public class Map : MonoBehaviour
         public Path ConstructPath()
         {
             PathfindingNode node = this;
-            List<Vector3Int> vecs = new List<Vector3Int> {node.ToVector()};
+            List<Vector3Int> vecs = new List<Vector3Int>();
             while (node.From != null)
             {
                 vecs.Insert(0, node.ToVector());

@@ -40,8 +40,6 @@ public class Mouse : MonoBehaviour
     private void RenderPath()
     {
         _renderMap.ClearAllTiles();
-        Debug.Log(_player.Position);
-        Debug.Log(_prevPos);
         Path path = _map.NavigateTo(_player.Position, _prevPos);
         if (path == null) return;
         while (path.Length != 0)
@@ -64,7 +62,7 @@ public class Mouse : MonoBehaviour
         else if (_prevPos != mousePosition)
         {
             _prevPos = mousePosition;
-            RenderPath();
+     //       RenderPath();
         }
     }
 }
