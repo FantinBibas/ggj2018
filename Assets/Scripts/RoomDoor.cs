@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RoomDoor : MonoBehaviour {   
     public int Pos;
+    public Direction.to Dir;
 
     public bool isValid()
     {
