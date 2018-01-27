@@ -35,7 +35,7 @@ public class Mouse : MonoBehaviour
 
     private bool IsValidCoord(Vector3Int pos)
     {
-        return (_map.Width > pos.x && pos.x >= 0 && _map.Height > pos.y && pos.y >= 0);
+        return _map.Width > pos.x && pos.x >= 0 && _map.Height > pos.y && pos.y >= 0;
     }
 
     private void RenderPath()
@@ -43,11 +43,12 @@ public class Mouse : MonoBehaviour
         _renderMap.ClearAllTiles();
         Path path = _map.NavigateTo(_player.Position, _prevPos);
         if (path == null) return;
+        _renderMap.SetTile(_prevPos + _map.TopLeft, MouseRenderTile);
         int i = _player.RemainingMoves;
         while (path.Length != 0 && i > 0)
         {
             Vector3Int node = path.Next();
-            _renderMap.SetTile(node + _map.TopLeft, path.Length == 0 || i == 1 ? MouseRenderTile : PathRenderTile);
+            _renderMap.SetTile(node + _map.TopLeft, PathRenderTile);
             i -= 1;
         }
     }
@@ -59,8 +60,8 @@ public class Mouse : MonoBehaviour
         if (!IsValidCoord(mousePosition)) return;
         if (Input.GetMouseButton(1))
         {
-            _player.SetObjective(mousePosition);
             _renderMap.ClearAllTiles();
+            _player.SetObjective(mousePosition);
         }
         else if (_prevPos != mousePosition)
         {

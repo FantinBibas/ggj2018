@@ -9,12 +9,12 @@ public class GameManager : MonoBehaviour
 
     public bool PlayerTurn
     {
-        get { return _player.IsCurrentTurn; }
+        get { return Player.IsCurrentTurn; }
     }
 
     public AMapGenerator MapGenerator;
 
-    private PlayerController _player;
+    public PlayerController Player { get; private set; }
     private ALivingEntityController[] _entities;
 
     private void Start()
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
                 MapGenerator.GenerateMap(Map.Grid);
             Map.Init();
             _entities = FindObjectsOfType<ALivingEntityController>().ToArray();
-            _player = FindObjectOfType<PlayerController>();
+            Player = FindObjectOfType<PlayerController>();
             StartCoroutine(MainLoop());
         }
     }
@@ -55,8 +55,8 @@ public class GameManager : MonoBehaviour
             {
                 RaycastHit hit;
                 GuardController guard = entity.GetComponent<GuardController>();
-                Vector3 rayDirection = _player.transform.position - entity.transform.position;
-                float rayRange = Vector3.Distance(_player.transform.position, entity.transform.position);
+                Vector3 rayDirection = Player.transform.position - entity.transform.position;
+                float rayRange = Vector3.Distance(Player.transform.position, entity.transform.position);
 
                 if (Vector3.Angle(rayDirection, entity.Direction) <=
                     guard.ViewAngle * 0.5f &&
