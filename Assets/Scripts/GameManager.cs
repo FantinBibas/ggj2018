@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -17,8 +18,14 @@ public class GameManager : MonoBehaviour
     public AMapGenerator MapGenerator;
 
     public PlayerController Player { get; private set; }
+
+    public IEnumerable<GuardController> Guards
+    {
+        get { return _entities.OfType<GuardController>(); }
+    }
+
     private ALivingEntityController[] _entities;
-    private bool _end = false;
+    private bool _end;
 
     private void Awake()
     {
@@ -72,8 +79,7 @@ public class GameManager : MonoBehaviour
         Map.gameObject.gameObject.SetActive(true);
     }
 
-    
-    
+
 /*    private void Update()
     {
         foreach (ALivingEntityController entity in _entities)
