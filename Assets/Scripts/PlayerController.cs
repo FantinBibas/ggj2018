@@ -30,7 +30,7 @@ public class PlayerController : ALivingEntityController
         yield return base.PostTurn();
     }
 
-    protected override IEnumerator OnMove()
+protected override IEnumerator OnMove()
     {
         foreach (GuardController g in GameManager.Instance.Guards)
             g.CheckForPlayer();
