@@ -24,15 +24,15 @@ public class HackGameManager : MonoBehaviour
 
     private bool areSettingsOk()
     {
-        return Mathf.CeilToInt(PlayerSignal.ParamFourier) == Mathf.CeilToInt(OriginalSignal.ParamFourier)
-               && Mathf.CeilToInt(PlayerSignal.ParamFrequency * 100) == Mathf.CeilToInt(OriginalSignal.ParamFrequency * 100)
-               && Mathf.CeilToInt(PlayerSignal.ParamStrength * 10) == Mathf.CeilToInt(OriginalSignal.ParamStrength * 10);
+        return Mathf.RoundToInt(PlayerSignal.ParamFourier) == Mathf.RoundToInt(OriginalSignal.ParamFourier)
+               && Mathf.RoundToInt(PlayerSignal.ParamFrequency * 100) == Mathf.RoundToInt(OriginalSignal.ParamFrequency * 100)
+               && Mathf.RoundToInt(PlayerSignal.ParamStrength * 10) == Mathf.RoundToInt(OriginalSignal.ParamStrength * 10);
     }
 
     private void Update()
     {
-        Strength.text = Mathf.CeilToInt(PlayerSignal.ParamStrength * 10).ToString();
-        Frequency.text = Mathf.CeilToInt(PlayerSignal.ParamFrequency * 100).ToString();
+        Strength.text = Mathf.RoundToInt(PlayerSignal.ParamStrength * 10).ToString();
+        Frequency.text = Mathf.RoundToInt(PlayerSignal.ParamFrequency * 100).ToString();
         Attack.text = PlayerSignal.ParamFourier.ToString();
         if (!areSettingsOk()) return;
         PlayerSignal.IsEditable = false;
