@@ -5,6 +5,7 @@ using UnityEngine;
 public class RoomDoor : MonoBehaviour {   
     public int Pos;
     public Direction.to Dir;
+    public bool isLink;
 
     public bool isValid()
     {
