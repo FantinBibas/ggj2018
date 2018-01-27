@@ -32,7 +32,6 @@ public abstract class ALivingEntityController : MonoBehaviour, ITurnBasedEntity
         _audio = GetComponent<AudioSource>();
         if (_audio)
             _audio.loop = true;
-        Init();
     }
 
     private void Start()
@@ -45,6 +44,7 @@ public abstract class ALivingEntityController : MonoBehaviour, ITurnBasedEntity
             Destroy(this);
         else
             Position = new Vector3Int(pos.x, pos.y, 0);
+        Init();
     }
 
     protected virtual void Init()

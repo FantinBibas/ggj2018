@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GuardController : ALivingEntityController
@@ -30,13 +31,16 @@ public class GuardController : ALivingEntityController
     protected override void Init()
     {
         _currentWaypointIndex = 0;
-        if (LoopMode != ELoopMode.REVERSE || Waypoints.Length <= 2) return;
-        Vector2Int[] waypoints = new Vector2Int[Waypoints.Length * 2 - 2];
-        for (int i = 0; i < Waypoints.Length; i += 1)
-            waypoints[i] = Waypoints[i];
-        for (int i = 1; i < Waypoints.Length - 1; i += 1)
-            waypoints[i + Waypoints.Length - 1] = Waypoints[Waypoints.Length - i - 1];
-        Waypoints = waypoints;
+        if (LoopMode == ELoopMode.REVERSE && Waypoints.Length > 2)
+        {
+            Vector2Int[] waypoints = new Vector2Int[Waypoints.Length * 2 - 2];
+            for (int i = 0; i < Waypoints.Length; i += 1)
+                waypoints[i] = Waypoints[i];
+            for (int i = 1; i < Waypoints.Length - 1; i += 1)
+                waypoints[i + Waypoints.Length - 1] = Waypoints[Waypoints.Length - i - 1];            
+            Waypoints = waypoints;
+        }
+        Waypoints = Waypoints.Select(w => w + new Vector2Int(Position.x, Position.y)).ToArray();
     }
 
     public void CheckForPlayer()
@@ -50,7 +54,6 @@ public class GuardController : ALivingEntityController
         Vector3Int dir = new Vector3Int((int) Direction.x, (int) Direction.y, 0);
         while (!pos.Equals(player.Position))
         {
-            Debug.Log(pos);
             if (map.IsSolid(pos))
                 return;
             pos += dir;

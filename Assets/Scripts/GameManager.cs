@@ -37,8 +37,6 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             Map = FindObjectOfType<Map>();
-            _entities = FindObjectsOfType<ALivingEntityController>().ToArray();
-            Player = FindObjectOfType<PlayerController>();
         }
     }
 
@@ -47,6 +45,8 @@ public class GameManager : MonoBehaviour
         if (MapGenerator != null)
             MapGenerator.GenerateMap(Map.Grid);
         Map.Init();
+        _entities = FindObjectsOfType<ALivingEntityController>().ToArray();
+        Player = FindObjectOfType<PlayerController>();
         StartCoroutine(MainLoop());
     }
 
