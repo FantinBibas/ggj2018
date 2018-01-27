@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+[RequireComponent(typeof(Grid))]
 public class Map : MonoBehaviour
 {
     public int X;
@@ -12,6 +13,11 @@ public class Map : MonoBehaviour
     public int Height;
 
     public Grid Grid { get; private set; }
+
+    public Vector3Int TopLeft
+    {
+        get { return new Vector3Int(X, Y, 0); }
+    }
 
     private bool[,] _nodes;
 
@@ -150,7 +156,7 @@ public class Map : MonoBehaviour
                 _nodes[x, y] = true;
             }
         }
-        foreach (Tilemap tilemap in Grid.GetComponentsInChildren<Tilemap>())
+        foreach (Tilemap tilemap in Grid.GetComponentsInChildren<Tilemap>().Where(t => !t.CompareTag("Ignore")))
         {
             bool solid = tilemap.CompareTag("Solid");
             for (int x = 0; x < Width; x += 1)
