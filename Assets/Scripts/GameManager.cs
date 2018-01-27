@@ -47,6 +47,8 @@ public class GameManager : MonoBehaviour
         Map.Init();
         _entities = FindObjectsOfType<ALivingEntityController>().ToArray();
         Player = FindObjectOfType<PlayerController>();
+        foreach (ALivingEntityController e in _entities)
+            e.OnCreate();
         StartCoroutine(MainLoop());
     }
 

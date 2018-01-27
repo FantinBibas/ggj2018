@@ -34,7 +34,7 @@ public abstract class ALivingEntityController : MonoBehaviour, ITurnBasedEntity
             _audio.loop = true;
     }
 
-    private void Start()
+    public void OnCreate()
     {
         Map map = GameManager.Instance.Map;
         Vector3Int pos = new Vector3Int(Mathf.FloorToInt(transform.position.x),

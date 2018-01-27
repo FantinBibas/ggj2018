@@ -12,6 +12,9 @@ public class MapGenerator : AMapGenerator
     public Tile PathTile;
     public ushort PathSize = 15;
 
+    [Range(0.01f, 0.99f)]
+    public float Rate = 1f;
+
     public override void GenerateMap(Grid grid)
     {
         _grid = grid;
@@ -23,15 +26,16 @@ public class MapGenerator : AMapGenerator
 
     public bool GenerateFromRoom(Grid room, float prob, Direction.to from)
     {
+        if (room == null)
+            return false;
         Room theRoom = room.GetComponent<Room>();
 
         foreach (RoomDoor door in theRoom.Doors)
         {
-            Debug.Log("FROM ===> " + room.GetComponent<Room>().From);
             if (!(Random.Range(0, 100) < prob * 100) || door.Dir == room.GetComponent<Room>().From) continue;
             Grid newRoom = GenerateFromDoor(door, room.GetComponent<Room>().DoorPos(door));
             AddToGrid(newRoom);
-            GenerateFromRoom(newRoom, 3 * prob / 4, from);
+            GenerateFromRoom(newRoom, prob * Rate, from);
         }
 
         return true;
@@ -53,6 +57,8 @@ public class MapGenerator : AMapGenerator
 
     public void AddToGrid(Grid toAdd)
     {
+        if (toAdd == null)
+            return;
         Tilemap[] tiles = toAdd.GetComponentsInChildren<Tilemap>();
         Room room = toAdd.GetComponent<Room>();
         foreach (Tilemap tmp in tiles)

@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114738480163563510}
   - component: {fileID: 114046674092935276}
   - component: {fileID: 82577492727972660}
+  - component: {fileID: 114617772010922278}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -142,6 +143,30 @@ MonoBehaviour:
   RightArrowRenderTile: {fileID: 11400000, guid: 170c094a43c097445bd9bb0608f2e08c,
     type: 2}
   MouseRenderTile: {fileID: 11400000, guid: da6d37cdd80125340b9b1f21d2715c2d, type: 2}
+--- !u!114 &114617772010922278
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1412184768170652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238cbfb281036fb40978886e6f37025b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FirstNode: {fileID: 2569400265808320772, guid: bb54a531ed3e4914d9fd8b8bd1861582,
+    type: 2}
+  AvailableRooms:
+  - {fileID: 2569400265574532634, guid: 25eaffe5108b7e44799d66e3b8e4cc9c, type: 2}
+  - {fileID: 2569400268533954630, guid: 2748cdc9164eef94da4f5e9566eace59, type: 2}
+  - {fileID: 2569400268050673576, guid: cf061d01b506a774095da18f13c7bb12, type: 2}
+  - {fileID: 2569400265550488556, guid: be759ddd934c9da479b23656a445bf54, type: 2}
+  - {fileID: 2569400265808320772, guid: bb54a531ed3e4914d9fd8b8bd1861582, type: 2}
+  - {fileID: 2569400266871713750, guid: 4b45c09525b47ce4ba6befb0c905f990, type: 2}
+  - {fileID: 2569400267798834430, guid: 31bf27ee3238b8444881279860f5c19b, type: 2}
+  PathTile: {fileID: 11400000, guid: b9a5121e223e1b54494d336a7fb9a9a4, type: 2}
+  PathSize: 3
+  Rate: 0.8
 --- !u!114 &114738480163563510
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -155,4 +180,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MinigamePrefab: {fileID: 114455505604018180, guid: dd0acbd4112e36c43a2ace6b5faac2dd,
     type: 2}
-  MapGenerator: {fileID: 0}
+  MapGenerator: {fileID: 114617772010922278}
