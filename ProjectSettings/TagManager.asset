@@ -7,6 +7,7 @@ TagManager:
   - Solid
   - Ignore
   - Guard
+  - WinMsg
   layers:
   - Default
   - TransparentFX

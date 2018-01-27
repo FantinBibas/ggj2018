@@ -7,6 +7,7 @@ public class SignalController : MonoBehaviour
 {
     public TrailRenderer TrailA;
     public TrailRenderer TrailB;
+    public bool IsEditable = true;
     [Header("Strength (height of the curve)")]
     public float ParamStrength;
     private const double StrengthStep = 0.1;
@@ -70,37 +71,37 @@ public class SignalController : MonoBehaviour
 
     public void IncrementStrength()
     {
-        if (ParamStrength < MaxStrength)
+        if (IsEditable && ParamStrength < MaxStrength)
             ParamStrength += (float) StrengthStep;
     }
 
     public void DecrementStrength()
     {
-        if (ParamStrength > MinStrength)
+        if (IsEditable && ParamStrength > MinStrength)
             ParamStrength -= (float) StrengthStep;
     }
 
     public void IncrementFrequency()
     {
-        if (ParamFrequency < MaxFrequency)
+        if (IsEditable && ParamFrequency < MaxFrequency)
             ParamFrequency += (float) FrequencyStep;
     }
 
     public void DecrementFrequency()
     {
-        if (ParamFrequency > MinFrequency)
+        if (IsEditable && ParamFrequency > MinFrequency)
             ParamFrequency -= (float) FrequencyStep;
     }
 
     public void IncrementFourier()
     {
-        if (ParamFourier < MaxFourier)
+        if (IsEditable && ParamFourier < MaxFourier)
             ParamFourier += (float) FourierStep;
     }
 
     public void DecrementFourier()
     {
-        if (ParamFourier > MinFourier)
+        if (IsEditable && ParamFourier > MinFourier)
             ParamFourier -= (float) FourierStep;
     }
 
