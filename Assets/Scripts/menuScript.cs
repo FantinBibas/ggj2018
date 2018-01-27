@@ -36,7 +36,7 @@ public class menuScript : MonoBehaviour
     public void StartLevel()
     {
         Debug.Log("yo\n");
-        SceneManager.LoadScene("Scenes/MiniHackingGame");
+        SceneManager.LoadScene(2);
     }
 
     public void ExitGame()

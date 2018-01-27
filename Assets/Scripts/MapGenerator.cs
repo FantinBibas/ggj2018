@@ -69,8 +69,10 @@ public class MapGenerator : AMapGenerator
                 TilemapRenderer r = go.AddComponent<TilemapRenderer>();
                 r.sortingLayerName = tmp.GetComponent<TilemapRenderer>().sortingLayerName;
             }
+
             CopySquare(tilemap, tmp, room.Pos);
         }
+
         foreach (GuardController guard in toAdd.GetComponentsInChildren<GuardController>())
         {
             GameObject go = Instantiate(guard.gameObject);
@@ -94,10 +96,12 @@ public class MapGenerator : AMapGenerator
                     firstOrDefault
                         .SetTile(new Vector3Int(pos.x, pos.y, 0), PathTile);
             }
+
             pos = Direction.GoAuto(new Vector2Int(pos.x, pos.y), 1, door.Dir);
             room = AvailableRooms[Random.Range(0, AvailableRooms.Length)];
             roomPos = CanInsertRoom(room.GetComponent<Room>(), new Vector2Int(pos.x, pos.y), door.Dir);
         } while (roomPos == null);
+
         room.GetComponent<Room>().Pos = roomPos.GetValueOrDefault();
         return room;
     }
@@ -110,6 +114,7 @@ public class MapGenerator : AMapGenerator
             room.From = door.Dir;
             return room.PosFromDoor(door, pos);
         }
+
         return null;
     }
 }
