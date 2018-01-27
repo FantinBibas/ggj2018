@@ -4,12 +4,16 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NaziManager : MonoBehaviour
+public class EnemyController : MonoBehaviour
 {
-    public Map Map;
+    private Map _map;
     public Vector3Int[] RoundPosition;
+    public float audioRange = 40f;
+    public float viewRange = 40f;
+    public float viewAngle = 180f;
     public Vector3Int Position = Vector3Int.zero;
     private uint _pointPos;
+    private PlayerController _player;
 
     private enum Direction
     {
@@ -19,31 +23,70 @@ public class NaziManager : MonoBehaviour
 
     private Direction _direction;
 
-    private void Start()
+    private void Awake()
     {
         _direction = Direction.StartToEnd;
+        _map = FindObjectOfType<Map>();
+        _player = (PlayerController) FindObjectOfType(typeof(PlayerController));
     }
 
     public void Play()
     {
         Vector3Int startPos = RoundPosition[_pointPos];
         Vector3Int endPos = GetNextPoint();
-        Path path = Map.NavigateTo(startPos, endPos);
+        Path path = _map.NavigateTo(startPos, endPos);
 
+        listenEnemy();
+        viewEnemy();
         if (path == null)
             return;
         foreach (var pathPos in path)
         {
             Position = pathPos;
-            checkEnemy();
+            transform.position = Position;
+            listenEnemy();
+            viewEnemy();
         }
     }
 
-    private bool checkEnemy()
+    private bool viewEnemy()
     {
-        return true;
+        RaycastHit hit;
+        Vector3 rayDirection = _player.transform.position - transform.position;
+        float rayRange = Vector3.Distance(_player.transform.position, transform.position);
+
+        if (Vector3.Angle(rayDirection, Vector3.right) <= viewAngle * 0.5f && rayRange < viewRange && rayRange <= viewRange)
+        {
+            Debug.Log("View Player " + Vector3.Angle(rayDirection, Vector3.right));
+            if (Physics.Raycast(transform.position, rayDirection, out hit, viewRange))
+            {
+                Debug.Log("Hit something");
+                return hit.transform.CompareTag("player");
+            }
+        }
+
+        return false;
     }
-    
+
+    private bool listenEnemy()
+    {
+        float rayRange = Vector3.Distance(_player.transform.position, transform.position);
+
+        if (rayRange <= audioRange)
+        {
+            Debug.Log("Listen Player");
+            return true;
+        }
+
+        return false;
+    }
+
+    private void Update()
+    {
+        listenEnemy();
+        viewEnemy();
+    }
+
     private Vector3Int GetNextPoint()
     {
         Vector3Int curPointPos = RoundPosition[_pointPos];
