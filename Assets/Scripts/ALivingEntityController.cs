@@ -11,6 +11,7 @@ public abstract class ALivingEntityController : MonoBehaviour, ITurnBasedEntity
     private Path _objective;
 
     public Vector3Int Position { get; private set; }
+    public Vector3 Direction { get; private set; }
     public bool IsMoving { get; private set; }
 
     private bool _init;
@@ -19,6 +20,7 @@ public abstract class ALivingEntityController : MonoBehaviour, ITurnBasedEntity
 
     private void Awake()
     {
+        Direction = new Vector3(1, 0, 0);
         Position = new Vector3Int(StartPosition.x, StartPosition.y, 0);
         IsMoving = false;
         _init = false;
@@ -44,6 +46,7 @@ public abstract class ALivingEntityController : MonoBehaviour, ITurnBasedEntity
         Position = position;
         for (int step = 0; step < SMOOTH_MOVEMENT_STEPS; step += 1)
         {
+            Direction = target - transform.position;
             transform.position = Vector3.Lerp(start, target, (float) step / SMOOTH_MOVEMENT_STEPS);
             yield return new WaitForEndOfFrame();
         }

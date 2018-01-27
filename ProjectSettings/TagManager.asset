@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Solid
   - Ignore
+  - Guard
   layers:
   - Default
   - TransparentFX
