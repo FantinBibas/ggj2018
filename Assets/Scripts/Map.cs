@@ -96,6 +96,11 @@ public class Map : MonoBehaviour
             }
             return new Path(node.ToVector(), ToVector(), vecs);
         }
+
+        public Vector3Int To(PathfindingNode node)
+        {
+            return new Vector3Int(node.X - X, node.Y - Y, 0);
+        }
     }
 
     public Path NavigateTo(Vector3Int from, Vector3Int to)
@@ -140,6 +145,8 @@ public class Map : MonoBehaviour
                     continue;
                 node.GScore = tentativeGScore;
                 node.FScore = node.GScore + node.Heuristic(toNode);
+                if (current.From != null)
+                    node.FScore += current.To(current.From).Equals(node.To(current)) ? 0 : 4;
                 node.From = current;
             }
         }
