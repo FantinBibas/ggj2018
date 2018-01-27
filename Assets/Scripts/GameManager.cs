@@ -58,10 +58,9 @@ public class GameManager : MonoBehaviour
         while (!_end)
         {
             foreach (ALivingEntityController entity in _entities)
-            {
-                if (_end) break;
-                yield return entity.DoTurn();
-            }
+                StartCoroutine(entity.DoTurn());
+            while (_entities.Any(e => e.IsCurrentTurn))
+                yield return new WaitForEndOfFrame();
         }
     }
 
