@@ -1,13 +1,21 @@
-﻿using UnityEngine;
-using UnityEngine.Tilemaps;
+﻿using System.Collections;
+using System.Linq;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-
     public Map Map { get; private set; }
 
+    public bool PlayerTurn
+    {
+        get { return _player.IsCurrentTurn; }
+    }
+
     public AMapGenerator MapGenerator;
+
+    private PlayerController _player;
+    private ALivingEntityController[] _entities;
 
     private void Start()
     {
@@ -22,11 +30,20 @@ public class GameManager : MonoBehaviour
             if (MapGenerator != null)
                 MapGenerator.GenerateMap(Map.Grid);
             Map.Init();
-            PlayerController player = FindObjectOfType<PlayerController>();
-            Debug.Log(player.SetObjective(new Vector3Int(5, 1, 0)));
-            StartCoroutine(player.DoTurn());
+            _entities = FindObjectsOfType<ALivingEntityController>().ToArray();
+            _player = FindObjectOfType<PlayerController>();
+            StartCoroutine(MainLoop());
         }
     }
 
-    public bool playerTurn;
+    private IEnumerator MainLoop()
+    {
+        while (true)
+        {
+            foreach (ALivingEntityController entity in _entities)
+            {
+                yield return entity.DoTurn();
+            }
+        }
+    }
 }

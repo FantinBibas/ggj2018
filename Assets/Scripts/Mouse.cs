@@ -1,37 +1,68 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Tilemaps;
 
-public class Mouse : MonoBehaviour {
+public class Mouse : MonoBehaviour
+{
+    public Tile PathRenderTile;
+
     private Map _map;
+    private Tilemap _renderMap;
     private PlayerController _player;
-   
+    private Vector3Int _prevPos;
+
     private void Awake()
     {
         _map = FindObjectOfType<Map>();
         _player = FindObjectOfType<PlayerController>();
     }
 
-    Vector3Int posOnMap()
+    private void Start()
     {
-        Vector3 mousePos = Input.mousePosition;
-        return new Vector3Int((int) (mousePos.x - _map.X), (int) (mousePos.y - _map.Y), (int) mousePos.z);
+        _prevPos = _player.Position;
+        GameObject tileMapGameObject = new GameObject("__renderPathTileMap") {tag = "Ignore"};
+        tileMapGameObject.transform.parent = _map.transform;
+        _renderMap = tileMapGameObject.AddComponent<Tilemap>();
+        TilemapRenderer tilemapRenderer = tileMapGameObject.AddComponent<TilemapRenderer>();
+        tilemapRenderer.sortingLayerName = "Path";
     }
 
-    bool isValidCoord(Vector3Int pos)
+    private Vector3Int PosOnMap()
     {
-        return (_map.X > pos.x && pos.x >= 0 && _map.Y > pos.y && pos.y >= 0);
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        return new Vector3Int((int) (mousePos.x - _map.X), (int) (mousePos.y - _map.Y), 0);
     }
-    
-    public IEnumerator DoTurn()
+
+    private bool IsValidCoord(Vector3Int pos)
     {
-        Vector3Int obj;
-        do {
-            obj = posOnMap();
-            yield return new WaitForEndOfFrame();
-            /* Render le chemin Lol */
-        } while (!Input.GetMouseButtonDown(1) || !isValidCoord(obj));
-        _player.SetObjective(obj);
-        yield return _player.DoTurn();
+        return (_map.Width > pos.x && pos.x >= 0 && _map.Height > pos.y && pos.y >= 0);
+    }
+
+    private void RenderPath()
+    {
+        _renderMap.ClearAllTiles();
+        Path path = _map.NavigateTo(_player.Position, _prevPos);
+        if (path == null) return;
+        while (path.Length != 0)
+        {
+            Vector3Int node = path.Next();
+            _renderMap.SetTile(node + _map.TopLeft, PathRenderTile);
+        }
+    }
+
+    private void Update()
+    {
+        if (!GameManager.Instance.PlayerTurn || _player.IsMoving) return;
+        Vector3Int mousePosition = PosOnMap();
+        if (!IsValidCoord(mousePosition)) return;
+        if (Input.GetMouseButton(1))
+        {
+            _player.SetObjective(mousePosition);
+            _renderMap.ClearAllTiles();
+        }
+        else if (_prevPos != mousePosition)
+        {
+            _prevPos = mousePosition;
+     //       RenderPath();
+        }
     }
 }
