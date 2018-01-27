@@ -46,7 +46,7 @@ TagManager:
   - name: Ground
     uniqueID: 3232529267
     locked: 0
-  - name: Shadows
+  - name: Overlay
     uniqueID: 3257141611
     locked: 0
   - name: Objects
