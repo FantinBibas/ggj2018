@@ -110,7 +110,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1132530051816296}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.5, y: -3.5, z: 0}
+  m_LocalPosition: {x: -15.325358, y: -7.0664167, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4413561527911714}
@@ -141,7 +141,7 @@ Animator:
   m_GameObject: {fileID: 1132530051816296}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b715318ba5a55c04aba46cc7e8cf045d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -160,14 +160,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f55cb5132e07594e90b3f9b7ad1453e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartPosition: {x: 8, y: 1}
   MovePerTurn: 4
   LoopMode: 0
   Waypoints:
   - {x: 8, y: 1}
   - {x: 8, y: 8}
   - {x: 1, y: 8}
-  _currentWaypointIndex: 0
   AudioRange: 2
   ViewRange: 10
   ViewAngle: 120

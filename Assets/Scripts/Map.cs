@@ -13,8 +13,8 @@ public class Map : MonoBehaviour
     public int Height { get; private set; }
     public Tile StationTile;
     public Vector3Int[] Stations;
-    
-    
+
+
     public Grid Grid { get; private set; }
 
     public Vector3Int TopLeft
@@ -45,9 +45,9 @@ public class Map : MonoBehaviour
         X = minx;
         Y = miny;
         Width = maxx - minx;
-        Height = maxy - miny;        
+        Height = maxy - miny;
     }
-    
+
     private void Awake()
     {
         Grid = GetComponent<Grid>();
@@ -91,7 +91,7 @@ public class Map : MonoBehaviour
     {
         return Stations.Where(s => s.Equals(pos)).Any();
     }
-    
+
     private class PathfindingNode
     {
         public int X { get; set; }
@@ -213,20 +213,26 @@ public class Map : MonoBehaviour
                 _nodes[x, y] = true;
             }
         }
-        foreach (Tilemap tilemap in Grid.GetComponentsInChildren<Tilemap>().Where(t => !t.CompareTag("Ignore")))
+        Tilemap[] tilemaps = Grid.GetComponentsInChildren<Tilemap>().Where(t => !t.CompareTag("Ignore")).ToArray();
+        for (int x = 0; x < Width; x += 1)
         {
-            bool solid = tilemap.CompareTag("Solid");
-            for (int x = 0; x < Width; x += 1)
+            for (int y = 0; y < Height; y += 1)
             {
-                for (int y = 0; y < Height; y += 1)
+                bool flag = true;
+                foreach (Tilemap tilemap in tilemaps)
                 {
+                    bool solid = tilemap.CompareTag("Solid");
                     Vector3Int pos = new Vector3Int(x + X, y + Y, 0);
-                    bool flag = solid;
-                    if (tilemap.HasTile(pos))
-                        flag = !flag;
-                    if (!flag)
-                        _nodes[x, y] = false;
+                    if (!tilemap.HasTile(pos)) continue;
+                    if (solid)
+                    {
+                        flag = true;
+                        break;
+                    }
+                    flag = false;
                 }
+                if (flag)
+                    _nodes[x, y] = false;
             }
         }
     }
@@ -234,9 +240,9 @@ public class Map : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(new Vector3(X + Width / 2, Y + Height / 2) , new Vector3(Width, Height));
-       /* Gizmos.color = Color.yellow;
-        foreach (Vector3Int station in Stations)
-            Gizmos.DrawWireSphere(station + new Vector3(0.5f, 0.5f, 0), 0.25f); */
+        Gizmos.DrawWireCube(new Vector3(X + Width / 2, Y + Height / 2), new Vector3(Width, Height));
+        /* Gizmos.color = Color.yellow;
+         foreach (Vector3Int station in Stations)
+             Gizmos.DrawWireSphere(station + new Vector3(0.5f, 0.5f, 0), 0.25f); */
     }
 }
