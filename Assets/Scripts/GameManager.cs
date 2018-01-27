@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
 
     public PlayerController Player { get; private set; }
     private ALivingEntityController[] _entities;
+    private bool _end = false;
 
     private void Awake()
     {
@@ -44,13 +45,19 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator MainLoop()
     {
-        while (true)
+        while (!_end)
         {
             foreach (ALivingEntityController entity in _entities)
             {
+                if (_end) break;
                 yield return entity.DoTurn();
             }
         }
+    }
+
+    public void StopGame()
+    {
+        _end = true;
     }
 
     public IEnumerator ShowMinigame()

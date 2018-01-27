@@ -10,6 +10,8 @@ public class MapCamera : MonoBehaviour
     private Coroutine _moveCoroutine;
     private Vector3Int _currentPos;
 
+    private bool _follow = true;
+
     private void Awake()
     {
         _camera = GetComponent<Camera>();
@@ -49,9 +51,16 @@ public class MapCamera : MonoBehaviour
 
     private void Update()
     {
+        if (!_follow) return;
         PlayerController player = GameManager.Instance.Player;
         if (Vector3Int.Distance(_currentPos, player.Position) < 1) return;
         CenterOn(player.Position);
         _currentPos = player.Position;
+    }
+
+    public void StopFollowing()
+    {
+        _follow = false;
+        CenterOn(new Vector3Int(0, 0, 0));
     }
 }

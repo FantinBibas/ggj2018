@@ -55,7 +55,10 @@ public class GuardController : ALivingEntityController
                 return;
             pos += dir;
         }
-        Debug.Log("ALED OSKOUR JPP");
+
+        GameObject.FindGameObjectWithTag("GlobalLoseMsg").GetComponent<Canvas>().enabled = true;
+        Camera.main.GetComponent<MapCamera>().StopFollowing();
+        GameManager.Instance.StopGame();
     }
 
     protected override IEnumerator OnMove()

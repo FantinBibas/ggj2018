@@ -71,7 +71,7 @@ GameObject:
   - component: {fileID: 95812284519963196}
   - component: {fileID: 114745899548430128}
   m_Layer: 0
-  m_Name: Player
+  m_Name: player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -190,7 +190,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a7e91de37649e74abd8e17e5a7f6b4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartPosition: {x: 1, y: 1}
   MovePerTurn: 4
 --- !u!212 &212233506287959716
 SpriteRenderer:
