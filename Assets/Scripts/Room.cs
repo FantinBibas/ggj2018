@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
-[ExecuteInEditMode]
 public class Room : MonoBehaviour
 {
     public Vector2Int Size;
@@ -11,13 +10,12 @@ public class Room : MonoBehaviour
         get { return new Vector2Int(Size.x / 2, Size.y / 2); }
     }
 
-    public RoomDoor[] Doors { get; private set; }
-    public Vector2Int Pos { get; set; }
-
-    private void OnEnable()
+    public IEnumerable<RoomDoor> Doors
     {
-        Doors = GetComponents<RoomDoor>();
+        get { return GetComponents<RoomDoor>(); }
     }
+
+    public Vector2Int Pos { get; set; }
     
     public static bool CheckDoor(RoomDoor Door)
     {
@@ -28,11 +26,11 @@ public class Room : MonoBehaviour
     {
         switch (door.Dir)
         {
-            case Direction.to.NORTH:
+            case Direction.to.SOUTH:
                 return new Vector2Int(pos.x - door.Pos, pos.y);
             case Direction.to.WEST:
                 return new Vector2Int(pos.x, pos.y - door.Pos);
-            case Direction.to.SOUTH:
+            case Direction.to.NORTH:
                 return new Vector2Int(pos.x - door.Pos, pos.y - Size.y - 1);
             case Direction.to.EAST:
                 return new Vector2Int(pos.x - Size.x - 1, pos.y - door.Pos);
@@ -45,14 +43,16 @@ public class Room : MonoBehaviour
     {
         switch (door.Dir)
         {
-            case Direction.to.NORTH:
+            case Direction.to.SOUTH:
                 return new Vector2Int(Pos.x + door.Pos, Pos.y);
+            case Direction.to.NORTH:
+                return new Vector2Int(Pos.x + door.Pos, Pos.y + Size.y - 1);
+                
             case Direction.to.WEST:
                 return new Vector2Int(Pos.x, Pos.y + door.Pos);
-            case Direction.to.SOUTH:
-                return new Vector2Int(Pos.x + door.Pos, Pos.y + Size.y - 1);
             case Direction.to.EAST:
                 return new Vector2Int(Pos.x + Size.x - 1, Pos.y + door.Pos);
+                
             default:
                 return new Vector2Int(Pos.x, Pos.y);
         }
@@ -62,12 +62,12 @@ public class Room : MonoBehaviour
     {
         foreach (Tilemap map in grid.GetComponentsInChildren<Tilemap>())
         {
-            /*for (int x = pos.x; x < Size.x + pos.x; pos.x++) {
+            for (int x = pos.x; x < Size.x + pos.x; pos.x++) {
                 for (int y = pos.y; y < Size.y + pos.y; pos.y++) {
                     if (map.HasTile(new Vector3Int(x, y, 0)))
                         return false;
                 }
-            } */
+            }
         }
         return true;
     }
@@ -75,7 +75,7 @@ public class Room : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
-        foreach (RoomDoor door in Doors)
+        foreach (RoomDoor door in GetComponents<RoomDoor>())
         {
             Vector2Int pos = DoorPos(door);
             Gizmos.DrawSphere(new Vector3(pos.x, pos.y, 0) + transform.position + new Vector3(0.5f, 0.5f, 0f), 0.2f);

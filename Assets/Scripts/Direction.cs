@@ -72,15 +72,15 @@ public class Direction {
         switch (dir)
         {
             case to.NORTH:
-                return GoNorth(vec, val);
+                return new Vector2Int(vec.x, vec.y + val);
             case to.SOUTH:
-                return GoSouth(vec, val);
+                return new Vector2Int(vec.x, vec.y - val);
             case to.EAST:
-                return GoEast(vec, val);
+                return new Vector2Int(vec.x + val, vec.y);
             case to.WEST:
-                return GoWest(vec, val);
+                return new Vector2Int(vec.x - val, vec.y);
             default:
-                return vec;
+                return new Vector2Int(vec.x, vec.y);
         }
     }
 
