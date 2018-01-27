@@ -46,4 +46,11 @@ public class Path : IEnumerable<Vector3Int>
     {
         return GetEnumerator();
     }
+
+    public Vector3Int Next()
+    {
+        Vector3Int ret = _nodes[0];
+        _nodes.RemoveAt(0);
+        return ret;
+    }
 }
