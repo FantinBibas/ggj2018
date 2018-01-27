@@ -50,17 +50,17 @@ public class Direction {
     public static Vector2Int GoNorth(Vector2Int vec, int val)
     {
         return new Vector2Int(vec.x, vec.y - val);
-    }    
+    }
     
     public static Vector2Int GoWest(Vector2Int vec, int val)
     {
         return new Vector2Int(vec.x - val, vec.y);
-    }    
+    }
     
     public static Vector2Int GoSouth(Vector2Int vec, int val)
     {
         return new Vector2Int(vec.x, vec.y + val);
-    }    
+    }
     
     public static Vector2Int GoEast(Vector2Int vec, int val)
     {
@@ -84,7 +84,7 @@ public class Direction {
         }
     }
 
-    public static to GetOpposide(to dir)
+    public static to GetOpposite(to dir)
     {
         switch (dir)
         {

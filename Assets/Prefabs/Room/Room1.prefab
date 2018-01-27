@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 2569400265808320772}
   - component: {fileID: 114769451803845232}
   - component: {fileID: 114096315864496610}
-  - component: {fileID: 114067140777465260}
   m_Layer: 0
   m_Name: Room1
   m_TagString: Untagged
@@ -137,20 +136,6 @@ Transform:
   m_Father: {fileID: 4494861829468716}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114067140777465260
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1196878805338984}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6a614b1290e69f4ea3548a40d75d945, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Pos: 2
-  Dir: 2
-  isLink: 0
 --- !u!114 &114096315864496610
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -164,7 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Pos: 2
   Dir: 2
-  isLink: 0
+  isLink: 1
 --- !u!114 &114769451803845232
 MonoBehaviour:
   m_ObjectHideFlags: 1
