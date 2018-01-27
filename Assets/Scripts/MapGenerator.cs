@@ -7,6 +7,7 @@ public class MapGenerator : AMapGenerator
     private Grid _grid;
     public Grid FirstNode;
     public Grid[] AvailableRooms;
+    public Tile pathTile;
 
     public override void GenerateMap(Grid grid)
     {
@@ -22,10 +23,11 @@ public class MapGenerator : AMapGenerator
 
         foreach (RoomDoor door in theRoom.Doors)
         {
+            Debug.Log(door.Dir);
+            Debug.Log(room.GetComponent<Room>().DoorPos(door));
             if (!(Random.Range(0, 100) < prob * 100)) continue;
             if (door.isLink) continue;
             Grid newRoom = GenerateFromDoor(door, room.GetComponent<Room>().DoorPos(door));
-            Debug.Log("(" + newRoom.GetComponent<Room>().Pos.x + ", " + newRoom.GetComponent<Room>().Pos.x + ")");
             GenerateFromRoom(newRoom, 3 * prob / 4);
             AddToGrid(newRoom);
         }
@@ -69,33 +71,50 @@ public class MapGenerator : AMapGenerator
     {
         Grid room;
         Vector2Int? roomPos;
-
+        Direction.to dir;
+                
         do
         {
-            Direction.to dir;
-            do
-            {
-                dir = Direction.IntToDir(Random.Range(0, 4));
-            } while (dir == Direction.GetOpposide(door.Dir));
-            pos = Direction.GoAuto(pos, 3, dir);
+            pos = Direction.GoAuto(new Vector2Int(pos.x, pos.y), 1, door.Dir);
+            _grid.GetComponentsInChildren<Tilemap>().FirstOrDefault(t => t.gameObject.name == "Path").SetTile(new Vector3Int(pos.x, pos.y, 0), pathTile);
             room = AvailableRooms[Random.Range(0, AvailableRooms.Length)];
-            roomPos = CanInsertRoom(room.GetComponent<Room>(), pos);
+            roomPos = CanInsertRoom(room.GetComponent<Room>(), new Vector2Int(pos.x, pos.y), door.Dir);
         } while (roomPos == null);
         Vector2Int tmp = roomPos.GetValueOrDefault();
         room.GetComponent<Room>().Pos = new Vector2Int(tmp.x, tmp.y);
         return room;
     }
 
-    public Vector2Int? CanInsertRoom(Room room, Vector2Int pos)
+    public Vector2Int? CanInsertRoom(Room room, Vector2Int pos, Direction.to dir)
     {
+        Vector2Int tmpPos = pos;
+        
         foreach (RoomDoor door in room.Doors)
         {
-            pos = Direction.GoAuto(pos, 1, door.Dir);
-            pos = room.PosFromDoor(door, pos);
-            if (!room.TestPos(_grid, pos)) continue;
+            if (door.Dir != dir) continue;
+            tmpPos = Direction.GoAuto(tmpPos, 1, door.Dir);
+            tmpPos = room.PosFromDoor(door, tmpPos);
+            if (TestPos(room.Pos, room.Size)) continue;
             door.isLink = true;
-            return pos;
+            return tmpPos;
         }
         return null;
+    }
+    
+    public bool TestPos(Vector2Int pos, Vector2Int size)
+    {
+        Tilemap[] allTile = _grid.GetComponentsInChildren<Tilemap>();
+        foreach (Tilemap tile in allTile)
+        {
+            for (int x = pos.x; x < pos.x + size.x; x++)
+            {
+                for (int y = pos.y; y < pos.y + size.y; y++)
+                {
+                    if (tile.HasTile(new Vector3Int(x, y, 0)))
+                        return false;
+                }
+            }             
+        }
+        return true;
     }
 }
