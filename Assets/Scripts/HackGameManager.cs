@@ -22,7 +22,7 @@ public class HackGameManager : MonoBehaviour
     private void Update()
     {
         Strength.text = Mathf.CeilToInt(PlayerSignal.ParamStrength * 10).ToString();
-        Frequency.text = Mathf.CeilToInt(PlayerSignal.ParamFrequency * 10).ToString();
-        Attack.text = Mathf.CeilToInt(PlayerSignal.ParamFourier * 10).ToString();
+        Frequency.text = Mathf.CeilToInt(PlayerSignal.ParamFrequency * 100).ToString();
+        Attack.text = PlayerSignal.ParamFourier.ToString();
     }
 }
