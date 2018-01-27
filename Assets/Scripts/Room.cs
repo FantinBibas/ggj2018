@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 public class Room : MonoBehaviour
 {
     public Vector2Int Size;
+    public Direction.to From { get; set; }
 
     private Vector2Int HalfSize
     {
@@ -29,12 +30,13 @@ public class Room : MonoBehaviour
         {
             case Direction.to.SOUTH:
                 return new Vector2Int(pos.x - door.Pos, pos.y);
+            case Direction.to.NORTH:
+                return new Vector2Int(pos.x - door.Pos, pos.y - Size.y + 1);
+                
             case Direction.to.WEST:
                 return new Vector2Int(pos.x, pos.y - door.Pos);
-            case Direction.to.NORTH:
-                return new Vector2Int(pos.x - door.Pos, pos.y - Size.y - 1);
             case Direction.to.EAST:
-                return new Vector2Int(pos.x - Size.x - 1, pos.y - door.Pos);
+                return new Vector2Int(pos.x - Size.x + 1, pos.y - door.Pos);
             default:
                 return pos;
         }

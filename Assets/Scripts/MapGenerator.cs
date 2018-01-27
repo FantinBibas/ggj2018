@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 public class MapGenerator : AMapGenerator
 {
@@ -8,29 +10,30 @@ public class MapGenerator : AMapGenerator
     public Grid FirstNode;
     public Grid[] AvailableRooms;
     public Tile pathTile;
+    public UInt16 pathSize = 15;
 
     public override void GenerateMap(Grid grid)
     {
         _grid = grid;
         FirstNode.GetComponent<Room>().Pos = new Vector2Int(0, 0);
+        FirstNode.GetComponent<Room>().From = Direction.to.NONE;
         AddToGrid(FirstNode);
-        GenerateFromRoom(FirstNode, 1);
+        GenerateFromRoom(FirstNode, 1, Direction.to.NONE);
     }
 
-    public bool GenerateFromRoom(Grid room, float prob)
+    public bool GenerateFromRoom(Grid room, float prob, Direction.to from)
     {
         Room theRoom = room.GetComponent<Room>();
 
         foreach (RoomDoor door in theRoom.Doors)
         {
-            Debug.Log(door.Dir);
-            Debug.Log(room.GetComponent<Room>().DoorPos(door));
-            if (!(Random.Range(0, 100) < prob * 100)) continue;
-            if (door.isLink) continue;
+            Debug.Log("FROM ===> " + room.GetComponent<Room>().From);
+            if (!(Random.Range(0, 100) < prob * 100) || door.Dir == room.GetComponent<Room>().From) continue;
             Grid newRoom = GenerateFromDoor(door, room.GetComponent<Room>().DoorPos(door));
-            GenerateFromRoom(newRoom, 3 * prob / 4);
             AddToGrid(newRoom);
+            GenerateFromRoom(newRoom, 3 * prob / 4, from);
         }
+
         return true;
     }
 
@@ -41,7 +44,9 @@ public class MapGenerator : AMapGenerator
         {
             for (int y = bounds.yMin; y < bounds.yMax; y++)
             {
-                dest.SetTile(new Vector3Int(x + pos.x, y + pos.y, 0), from.GetTile(new Vector3Int(x, y, 0)));
+                TileBase t = from.GetTile(new Vector3Int(x, y, 0));
+                if (t != null)
+                    dest.SetTile(new Vector3Int(x + pos.x, y + pos.y, 0), t);
             }
         }
     }
@@ -62,6 +67,7 @@ public class MapGenerator : AMapGenerator
                 TilemapRenderer r = go.AddComponent<TilemapRenderer>();
                 r.sortingLayerName = tmp.GetComponent<TilemapRenderer>().sortingLayerName;
             }
+
             Room room = toAdd.GetComponent<Room>();
             CopySquare(tilemap, tmp, room.Pos);
         }
@@ -72,49 +78,33 @@ public class MapGenerator : AMapGenerator
         Grid room;
         Vector2Int? roomPos;
         Direction.to dir;
-                
+
         do
         {
+            for (int i = 0; i < pathSize; i++) {
+                pos = Direction.GoAuto(new Vector2Int(pos.x, pos.y), 1, door.Dir);
+                _grid.GetComponentsInChildren<Tilemap>().FirstOrDefault(t => t.gameObject.name == "Path")
+                    .SetTile(new Vector3Int(pos.x, pos.y, 0), pathTile);
+            }
             pos = Direction.GoAuto(new Vector2Int(pos.x, pos.y), 1, door.Dir);
-            _grid.GetComponentsInChildren<Tilemap>().FirstOrDefault(t => t.gameObject.name == "Path").SetTile(new Vector3Int(pos.x, pos.y, 0), pathTile);
             room = AvailableRooms[Random.Range(0, AvailableRooms.Length)];
             roomPos = CanInsertRoom(room.GetComponent<Room>(), new Vector2Int(pos.x, pos.y), door.Dir);
         } while (roomPos == null);
-        Vector2Int tmp = roomPos.GetValueOrDefault();
-        room.GetComponent<Room>().Pos = new Vector2Int(tmp.x, tmp.y);
+        room.GetComponent<Room>().Pos = roomPos.GetValueOrDefault();
         return room;
     }
 
     public Vector2Int? CanInsertRoom(Room room, Vector2Int pos, Direction.to dir)
     {
         Vector2Int tmpPos = pos;
-        
+
         foreach (RoomDoor door in room.Doors)
         {
-            if (door.Dir != dir) continue;
-            tmpPos = Direction.GoAuto(tmpPos, 1, door.Dir);
-            tmpPos = room.PosFromDoor(door, tmpPos);
-            if (TestPos(room.Pos, room.Size)) continue;
-            door.isLink = true;
-            return tmpPos;
+            if (Direction.GetOpposite(door.Dir) != dir) continue;
+            room.From = door.Dir;
+            return room.PosFromDoor(door, pos);
         }
+
         return null;
-    }
-    
-    public bool TestPos(Vector2Int pos, Vector2Int size)
-    {
-        Tilemap[] allTile = _grid.GetComponentsInChildren<Tilemap>();
-        foreach (Tilemap tile in allTile)
-        {
-            for (int x = pos.x; x < pos.x + size.x; x++)
-            {
-                for (int y = pos.y; y < pos.y + size.y; y++)
-                {
-                    if (tile.HasTile(new Vector3Int(x, y, 0)))
-                        return false;
-                }
-            }             
-        }
-        return true;
     }
 }
