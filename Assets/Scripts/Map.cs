@@ -11,21 +11,22 @@ public class Map : MonoBehaviour
     public int Width;
     public int Height;
 
-    private Grid _grid;
+    public Grid Grid { get; private set; }
 
     private bool[,] _nodes;
 
     private void Awake()
     {
-        _grid = GetComponent<Grid>();
-        if (_grid == null)
+        Grid = GetComponent<Grid>();
+        if (Grid == null)
         {
             Destroy(this);
         }
-        else
-        {
-            CreateNodes();
-        }
+    }
+
+    public void Init()
+    {
+        CreateNodes();
     }
 
     private bool HasNodeAt(Vector3Int pos)
@@ -142,18 +143,26 @@ public class Map : MonoBehaviour
     private void CreateNodes()
     {
         _nodes = new bool[Width, Height];
-        foreach (Tilemap tilemap in _grid.GetComponentsInChildren<Tilemap>())
+        for (int x = 0; x < Width; x += 1)
         {
-            if (tilemap.CompareTag("Solid")) continue;
+            for (int y = 0; y < Height; y += 1)
+            {
+                _nodes[x, y] = true;
+            }
+        }
+        foreach (Tilemap tilemap in Grid.GetComponentsInChildren<Tilemap>())
+        {
+            bool solid = tilemap.CompareTag("Solid");
             for (int x = 0; x < Width; x += 1)
             {
                 for (int y = 0; y < Height; y += 1)
                 {
                     Vector3Int pos = new Vector3Int(x + X, y + Y, 0);
+                    bool flag = solid;
                     if (tilemap.HasTile(pos))
-                    {
-                        _nodes[x, y] = true;
-                    }
+                        flag = !flag;
+                    if (!flag)
+                        _nodes[x, y] = false;
                 }
             }
         }
