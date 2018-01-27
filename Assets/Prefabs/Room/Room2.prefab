@@ -39,6 +39,9 @@ GameObject:
   - component: {fileID: 2569400266871713750}
   - component: {fileID: 114719246465083004}
   - component: {fileID: 114341525410310540}
+  - component: {fileID: 114031406396124426}
+  - component: {fileID: 114287981174984902}
+  - component: {fileID: 114905769750311470}
   m_Layer: 0
   m_Name: Room2
   m_TagString: Untagged
@@ -136,6 +139,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114031406396124426
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1636030134342542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6a614b1290e69f4ea3548a40d75d945, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Pos: 3
+  Dir: 1
+--- !u!114 &114287981174984902
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1636030134342542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6a614b1290e69f4ea3548a40d75d945, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Pos: 7
+  Dir: 3
 --- !u!114 &114341525410310540
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -161,6 +190,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Size: {x: 10, y: 10}
+--- !u!114 &114905769750311470
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1636030134342542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6a614b1290e69f4ea3548a40d75d945, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Pos: 4
+  Dir: 2
 --- !u!19719996 &2113883504446507074
 TilemapCollider2D:
   m_ObjectHideFlags: 1

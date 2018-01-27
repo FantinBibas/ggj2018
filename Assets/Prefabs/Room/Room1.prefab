@@ -149,7 +149,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Pos: 2
   Dir: 2
-  isLink: 1
 --- !u!114 &114769451803845232
 MonoBehaviour:
   m_ObjectHideFlags: 1
