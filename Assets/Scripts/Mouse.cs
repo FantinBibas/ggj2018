@@ -1,9 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class Mouse : MonoBehaviour
 {
     public Tile PathRenderTile;
+    public Tile UpArrowRenderTile;
+    public Tile DownArrowRenderTile;
+    public Tile LeftArrowRenderTile;
+    public Tile RightArrowRenderTile;
     public Tile MouseRenderTile;
 
     private Map _map;
@@ -35,7 +40,16 @@ public class Mouse : MonoBehaviour
 
     private bool IsValidCoord(Vector3Int pos)
     {
-        return (_map.Width > pos.x && pos.x >= 0 && _map.Height > pos.y && pos.y >= 0);
+        return _map.Width > pos.x && pos.x >= 0 && _map.Height > pos.y && pos.y >= 0;
+    }
+
+    private Tile GetTile(Vector3 direction)
+    {
+        if (direction.x < 0)
+            return LeftArrowRenderTile;
+        if (direction.x > 0)
+            return RightArrowRenderTile;
+        return direction.y < 0 ? DownArrowRenderTile : UpArrowRenderTile;
     }
 
     private void RenderPath()
@@ -43,11 +57,12 @@ public class Mouse : MonoBehaviour
         _renderMap.ClearAllTiles();
         Path path = _map.NavigateTo(_player.Position, _prevPos);
         if (path == null) return;
-        int i = _player.RemainingMoves;
-        while (path.Length != 0 && i > 0)
+        _renderMap.SetTile(_prevPos + _map.TopLeft, MouseRenderTile);
+        int i = Math.Min(path.Length, _player.RemainingMoves);
+        while (i > 0)
         {
             Vector3Int node = path.Next();
-            _renderMap.SetTile(node + _map.TopLeft, path.Length == 0 || i == 1 ? MouseRenderTile : PathRenderTile);
+            _renderMap.SetTile(node + _map.TopLeft, i == 1 ? PathRenderTile : GetTile(path.Direction));
             i -= 1;
         }
     }
@@ -59,8 +74,8 @@ public class Mouse : MonoBehaviour
         if (!IsValidCoord(mousePosition)) return;
         if (Input.GetMouseButton(1))
         {
-            _player.SetObjective(mousePosition);
             _renderMap.ClearAllTiles();
+            _player.SetObjective(mousePosition);
         }
         else if (_prevPos != mousePosition)
         {

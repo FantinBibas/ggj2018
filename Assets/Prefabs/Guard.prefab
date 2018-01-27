@@ -22,8 +22,8 @@ GameObject:
   - component: {fileID: 212736489980035720}
   - component: {fileID: 114113960323565948}
   m_Layer: 0
-  m_Name: guard
-  m_TagString: Untagged
+  m_Name: Guard
+  m_TagString: Guard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53,12 +53,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartPosition: {x: 8, y: 1}
-  MovePerTurn: 1
+  MovePerTurn: 64
   LoopMode: 0
   Waypoints:
   - {x: 8, y: 1}
   - {x: 8, y: 8}
   - {x: 1, y: 8}
+  _currentWaypointIndex: 0
   AudioRange: 2
   ViewRange: 10
   ViewAngle: 120

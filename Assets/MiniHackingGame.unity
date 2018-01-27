@@ -281,8 +281,8 @@ MonoBehaviour:
   ParamStrength: 1.3
   ParamFrequency: 0.4
   ParamFourier: 1
-  MinXLimit: -7.4
-  MaxYLimit: 2.5
+  MinXLimit: -7.48
+  MaxYLimit: 2.62
   YOffset: 0
   Speed: 0.1
 --- !u!1 &147442382
@@ -2229,8 +2229,8 @@ MonoBehaviour:
   ParamStrength: 1.2
   ParamFrequency: 0.2
   ParamFourier: 2
-  MinXLimit: -7.4
-  MaxYLimit: 2.5
+  MinXLimit: -7.48
+  MaxYLimit: 2.62
   YOffset: 0
   Speed: 0.05
 --- !u!4 &1724946684

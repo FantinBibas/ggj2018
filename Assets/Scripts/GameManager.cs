@@ -9,12 +9,12 @@ public class GameManager : MonoBehaviour
 
     public bool PlayerTurn
     {
-        get { return _player.IsCurrentTurn; }
+        get { return Player.IsCurrentTurn; }
     }
 
     public AMapGenerator MapGenerator;
 
-    private PlayerController _player;
+    public PlayerController Player { get; private set; }
     private ALivingEntityController[] _entities;
 
     private void Start()
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
                 MapGenerator.GenerateMap(Map.Grid);
             Map.Init();
             _entities = FindObjectsOfType<ALivingEntityController>().ToArray();
-            _player = FindObjectOfType<PlayerController>();
+            Player = FindObjectOfType<PlayerController>();
             StartCoroutine(MainLoop());
         }
     }
@@ -53,21 +53,20 @@ public class GameManager : MonoBehaviour
         {
             if (entity.CompareTag("Guard"))
             {
-                RaycastHit hit;
+                RaycastHit2D hit;
                 GuardController guard = entity.GetComponent<GuardController>();
-                Vector3 rayDirection = _player.transform.position - entity.transform.position;
-                float rayRange = Vector3.Distance(_player.transform.position, entity.transform.position);
+                Vector3 rayDirection = Player.transform.position - entity.transform.position;
+                float rayRange = Vector3.Distance(Player.transform.position, entity.transform.position);
 
                 if (Vector3.Angle(rayDirection, entity.Direction) <=
                     guard.ViewAngle * 0.5f &&
                     rayRange < guard.ViewRange &&
                     rayRange <= guard.ViewRange)
                 {
-                    Debug.Log("View Player " + Vector3.Angle(rayDirection, entity.Direction));
-                    if (Physics.Raycast(entity.transform.position, rayDirection, out hit, guard.ViewRange))
+                    hit = Physics2D.Raycast(entity.transform.position, rayDirection, guard.ViewRange);
+                    if (hit.transform.CompareTag("Player"))
                     {
-                        Debug.Log("Hit something");
-                        //return hit.transform.CompareTag("Player");
+                        Debug.Log("Hit Player");
                     }
                 }
             }
