@@ -10,4 +10,5 @@ public class MapGenerator : AMapGenerator
     {
         Grid = grid;
     }
+    
 }
