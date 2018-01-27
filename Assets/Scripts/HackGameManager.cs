@@ -15,6 +15,8 @@ public class HackGameManager : MonoBehaviour
 
     private void Start()
     {
+        OriginalSignal.RandomizeSignal();
+        PlayerSignal.RandomizeSignal();
         _signals = FindObjectsOfType<SignalController>();
         foreach (SignalController signal in _signals)
         {

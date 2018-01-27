@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SignalController : MonoBehaviour
 {
@@ -103,6 +104,13 @@ public class SignalController : MonoBehaviour
     {
         if (IsEditable && ParamFourier > MinFourier)
             ParamFourier -= (float) FourierStep;
+    }
+
+    public void RandomizeSignal()
+    {
+        ParamStrength = (float) Random.Range(0, (int) (MaxStrength - MinStrength) * 10) / 10 + (float) MinStrength;
+        ParamFrequency = (float) Random.Range(0, (int) (MaxFrequency - MinFrequency) * 100) / 100 + (float) MinFrequency;
+        ParamFourier = Random.Range((int) MinFourier, (int) MaxFourier);
     }
 
     public IEnumerator Move()
