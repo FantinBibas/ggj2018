@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(AudioSource))]
 public class HackGameManager : MonoBehaviour
 {
     public Text Strength;
@@ -39,9 +40,10 @@ public class HackGameManager : MonoBehaviour
         Strength.text = Mathf.RoundToInt(PlayerSignal.ParamStrength * 10).ToString();
         Frequency.text = Mathf.RoundToInt(PlayerSignal.ParamFrequency * 100).ToString();
         Attack.text = PlayerSignal.ParamFourier.ToString();
-        if (!AreSettingsOk()) return;
+        if (!AreSettingsOk() || IsOver) return;
         PlayerSignal.IsEditable = false;
         GameObject.FindGameObjectWithTag("WinMsg").GetComponent<Text>().enabled = true;
         IsOver = true;
+        GetComponent<AudioSource>().Play();
     }
 }

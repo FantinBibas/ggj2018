@@ -39,7 +39,7 @@ public class GuardController : ALivingEntityController
         Waypoints = waypoints;
     }
 
-    private void CheckForPlayer()
+    public void CheckForPlayer()
     {
         PlayerController player = GameManager.Instance.Player;
         Vector3Int rel = player.Position - Position;
@@ -55,7 +55,10 @@ public class GuardController : ALivingEntityController
                 return;
             pos += dir;
         }
-        Debug.Log("ALED OSKOUR JPP");
+
+        GameObject.FindGameObjectWithTag("GlobalLoseMsg").GetComponent<Canvas>().enabled = true;
+        Camera.main.GetComponent<MapCamera>().StopFollowing();
+        GameManager.Instance.StopGame();
     }
 
     protected override IEnumerator OnMove()

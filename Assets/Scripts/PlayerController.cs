@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerController : ALivingEntityController
@@ -18,8 +19,8 @@ public class PlayerController : ALivingEntityController
 
     protected override IEnumerator OnObjectiveReached()
     {
-      //  if (RemainingMoves > 0)
-      //      yield return AwaitOrder();
+        //  if (RemainingMoves > 0)
+        //      yield return AwaitOrder();
         yield break;
     }
 
@@ -31,6 +32,8 @@ public class PlayerController : ALivingEntityController
 
     protected override IEnumerator OnMove()
     {
+        foreach (GuardController g in GameManager.Instance.Guards)
+            g.CheckForPlayer();
         if (!GameManager.Instance.Map.IsStation(Position)) yield break;
         yield return GameManager.Instance.ShowMinigame();
         GameManager.Instance.Map.RemoveStationAt(Position);

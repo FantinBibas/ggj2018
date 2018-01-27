@@ -8,6 +8,7 @@ TagManager:
   - Ignore
   - Guard
   - WinMsg
+  - GlobalLoseMsg
   layers:
   - Default
   - TransparentFX

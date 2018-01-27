@@ -6,6 +6,7 @@ public abstract class ALivingEntityController : MonoBehaviour, ITurnBasedEntity
     private const int SMOOTH_MOVEMENT_STEPS = 10;
 
     private Animator _animator;
+    private AudioSource _audio;
 
 //    public Vector2Int StartPosition;
     [Range(1, 64)] public int MovePerTurn = 1;
@@ -28,6 +29,9 @@ public abstract class ALivingEntityController : MonoBehaviour, ITurnBasedEntity
         IsMoving = false;
         _init = false;
         _animator = GetComponent<Animator>();
+        _audio = GetComponent<AudioSource>();
+        if (_audio)
+            _audio.loop = true;
         Init();
     }
 
@@ -71,12 +75,16 @@ public abstract class ALivingEntityController : MonoBehaviour, ITurnBasedEntity
         Position = position;
         if (_animator)
             _animator.SetBool("moving", true);
+        if (_audio)
+            _audio.Play();
         for (int step = 0; step < SMOOTH_MOVEMENT_STEPS; step += 1)
         {
             Direction = (target - transform.position).normalized;
             transform.position = Vector3.Lerp(start, target, (float) step / SMOOTH_MOVEMENT_STEPS);
             yield return new WaitForEndOfFrame();
         }
+        if (_audio)
+            _audio.Stop();
         transform.position = target;
         yield return OnMove();
         if (_animator)
