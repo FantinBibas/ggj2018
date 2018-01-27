@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator MainLoop()
     {
+        yield return new WaitForEndOfFrame();
         while (!_end)
         {
             foreach (ALivingEntityController entity in _entities)

@@ -17,7 +17,7 @@ public abstract class ALivingEntityController : MonoBehaviour, ITurnBasedEntity
     public Vector3 Direction { get; private set; }
     public bool IsMoving { get; private set; }
 
-    private bool _init;
+    public bool IsInit { get; private set; }
 
     public bool IsCurrentTurn { get; private set; }
 
@@ -27,7 +27,7 @@ public abstract class ALivingEntityController : MonoBehaviour, ITurnBasedEntity
     {
         Direction = new Vector3(1, 0, 0);
         IsMoving = false;
-        _init = false;
+        IsInit = false;
         _animator = GetComponent<Animator>();
         _audio = GetComponent<AudioSource>();
         if (_audio)
@@ -122,10 +122,10 @@ public abstract class ALivingEntityController : MonoBehaviour, ITurnBasedEntity
     {
         IsCurrentTurn = true;
         RemainingMoves = MovePerTurn;
-        if (!_init)
+        if (!IsInit)
         {
             yield return OnObjectiveReached();
-            _init = true;
+            IsInit = true;
         }
         yield return PreTurn();
         IsMoving = true;

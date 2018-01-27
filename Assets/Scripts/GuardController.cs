@@ -19,28 +19,28 @@ public class GuardController : ALivingEntityController
     public float ViewRange = 10f;
     public float ViewAngle = 120f;
 
+    private Vector3Int _start;
+
     private Vector2Int NextWaypoint
     {
         get
         {
             _currentWaypointIndex = (_currentWaypointIndex + 1) % Waypoints.Length;
-            return Waypoints[_currentWaypointIndex];
+            return Waypoints[_currentWaypointIndex] + new Vector2Int(_start.x, _start.y);
         }
     }
 
     protected override void Init()
     {
+        _start = Position;
         _currentWaypointIndex = 0;
-        if (LoopMode == ELoopMode.REVERSE && Waypoints.Length > 2)
-        {
-            Vector2Int[] waypoints = new Vector2Int[Waypoints.Length * 2 - 2];
-            for (int i = 0; i < Waypoints.Length; i += 1)
-                waypoints[i] = Waypoints[i];
-            for (int i = 1; i < Waypoints.Length - 1; i += 1)
-                waypoints[i + Waypoints.Length - 1] = Waypoints[Waypoints.Length - i - 1];            
-            Waypoints = waypoints;
-        }
-        Waypoints = Waypoints.Select(w => w + new Vector2Int(Position.x, Position.y)).ToArray();
+        if (LoopMode != ELoopMode.REVERSE || Waypoints.Length <= 2) return;
+        Vector2Int[] waypoints = new Vector2Int[Waypoints.Length * 2 - 2];
+        for (int i = 0; i < Waypoints.Length; i += 1)
+            waypoints[i] = Waypoints[i];
+        for (int i = 1; i < Waypoints.Length - 1; i += 1)
+            waypoints[i + Waypoints.Length - 1] = Waypoints[Waypoints.Length - i - 1];
+        Waypoints = waypoints;
     }
 
     public void CheckForPlayer()
@@ -87,5 +87,20 @@ public class GuardController : ALivingEntityController
         Vector2Int vec2 = NextWaypoint;
         SetObjective(new Vector3Int(vec2.x, vec2.y, 0));
         yield return base.OnObjectiveReached();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Vector3Int s = new Vector3Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.y),
+            0);
+        Vector3 prev = s + new Vector3(0.5f, 0.5f, 0);
+        foreach (Vector2Int waypoint in Waypoints)
+        {
+            Vector3 v = new Vector3(waypoint.x + 0.5f, waypoint.y + 0.5f, 0) + s;
+            Gizmos.DrawSphere(v, 0.2f);
+            Gizmos.DrawLine(prev, v);
+            prev = v;
+        }
     }
 }
