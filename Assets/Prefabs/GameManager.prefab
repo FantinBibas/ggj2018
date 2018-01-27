@@ -52,7 +52,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a47f66fbe56cc32409363a05f7d39003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PathRenderTile: {fileID: 11400000, guid: 2ec784d574b0fcd4c89238ed1acd1ced, type: 2}
+  PathRenderTile: {fileID: 11400000, guid: 508d812837ccc17488a8fe15547ff2b2, type: 2}
+  UpArrowRenderTile: {fileID: 11400000, guid: 11b747c6863ca164b8581305403203bc, type: 2}
+  DownArrowRenderTile: {fileID: 11400000, guid: 3d84afb105f72fb489be531d58461ff0,
+    type: 2}
+  LeftArrowRenderTile: {fileID: 11400000, guid: 9457e5c324917814d90b5c6e516d0a81,
+    type: 2}
+  RightArrowRenderTile: {fileID: 11400000, guid: 170c094a43c097445bd9bb0608f2e08c,
+    type: 2}
   MouseRenderTile: {fileID: 11400000, guid: da6d37cdd80125340b9b1f21d2715c2d, type: 2}
 --- !u!114 &114738480163563510
 MonoBehaviour:
@@ -65,4 +72,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 897e1274f9ea46a4d91dcf243c7b82cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MinigamePrefab: {fileID: 114455505604018180, guid: dd0acbd4112e36c43a2ace6b5faac2dd,
+    type: 2}
   MapGenerator: {fileID: 0}

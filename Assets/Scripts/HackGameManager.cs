@@ -10,6 +10,8 @@ public class HackGameManager : MonoBehaviour
     public Text Attack;
     public SignalController PlayerSignal;
     public SignalController OriginalSignal;
+    
+    public bool IsOver { get; private set; }
 
     private SignalController[] _signals;
 
@@ -22,9 +24,10 @@ public class HackGameManager : MonoBehaviour
         {
             StartCoroutine(signal.Move());
         }
+        IsOver = false;
     }
 
-    private bool areSettingsOk()
+    private bool AreSettingsOk()
     {
         return Mathf.RoundToInt(PlayerSignal.ParamFourier) == Mathf.RoundToInt(OriginalSignal.ParamFourier)
                && Mathf.RoundToInt(PlayerSignal.ParamFrequency * 100) == Mathf.RoundToInt(OriginalSignal.ParamFrequency * 100)
@@ -36,8 +39,9 @@ public class HackGameManager : MonoBehaviour
         Strength.text = Mathf.RoundToInt(PlayerSignal.ParamStrength * 10).ToString();
         Frequency.text = Mathf.RoundToInt(PlayerSignal.ParamFrequency * 100).ToString();
         Attack.text = PlayerSignal.ParamFourier.ToString();
-        if (!areSettingsOk()) return;
+        if (!AreSettingsOk()) return;
         PlayerSignal.IsEditable = false;
         GameObject.FindGameObjectWithTag("WinMsg").GetComponent<Text>().enabled = true;
+        IsOver = true;
     }
 }

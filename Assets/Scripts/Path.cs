@@ -9,6 +9,9 @@ public class Path : IEnumerable<Vector3Int>
 
     private readonly List<Vector3Int> _nodes;
 
+    private Vector3? _direction;
+    private Vector3 _prevPos;
+
     public int Length
     {
         get { return _nodes.Count; }
@@ -25,6 +28,8 @@ public class Path : IEnumerable<Vector3Int>
         End = end;
         _nodes = new List<Vector3Int>();
         _nodes.AddRange(nodes);
+        _direction = null;
+        _prevPos = start;
     }
 
     public Vector3Int? this[int index]
@@ -39,7 +44,11 @@ public class Path : IEnumerable<Vector3Int>
 
     public IEnumerator<Vector3Int> GetEnumerator()
     {
-        return _nodes.GetEnumerator();
+        foreach (Vector3Int node in _nodes)
+        {
+            yield return node;
+            UpdateDirection(node);
+        }
     }
 
     IEnumerator IEnumerable.GetEnumerator()
@@ -51,6 +60,18 @@ public class Path : IEnumerable<Vector3Int>
     {
         Vector3Int ret = _nodes[0];
         _nodes.RemoveAt(0);
+        UpdateDirection(ret);
         return ret;
+    }
+
+    private void UpdateDirection(Vector3Int current)
+    {
+        _direction = current - _prevPos;
+        _prevPos = current;
+    }
+
+    public Vector3 Direction
+    {
+        get { return _direction ?? Vector3.up; }
     }
 }
