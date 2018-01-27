@@ -11,7 +11,10 @@ public class Map : MonoBehaviour
     public int Y;
     public int Width;
     public int Height;
-
+    public Tile StationTile;
+    public Vector3Int[] Stations;
+    
+    
     public Grid Grid { get; private set; }
 
     public Vector3Int TopLeft
@@ -32,6 +35,14 @@ public class Map : MonoBehaviour
 
     public void Init()
     {
+        GameObject tilemapGameObject = new GameObject("__buttonTileMap");
+        tilemapGameObject.transform.parent = transform;
+        Tilemap tilemap = tilemapGameObject.AddComponent<Tilemap>();
+        TilemapRenderer tilerenderer = tilemapGameObject.AddComponent<TilemapRenderer>();
+        tilerenderer.sortingLayerName = "Objects";
+        tilemapGameObject.tag = "Ignore";
+        foreach (Vector3Int station in Stations)
+            tilemap.SetTile(station + TopLeft, StationTile);
         CreateNodes();
     }
 
@@ -42,6 +53,16 @@ public class Map : MonoBehaviour
         return pos.y < _nodes.GetLength(1) && _nodes[pos.x, pos.y];
     }
 
+    public void RemoveStationAt(Vector3Int pos)
+    {
+        Stations = Stations.Where(s => !s.Equals(pos)).ToArray();
+    }
+
+    public bool IsStation(Vector3Int pos)
+    {
+        return Stations.Where(s => s.Equals(pos)).Any();
+    }
+    
     private class PathfindingNode
     {
         public int X { get; set; }
@@ -185,5 +206,8 @@ public class Map : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(new Vector3(X + Width / 2, Y + Height / 2), new Vector3(Width, Height));
+        Gizmos.color = Color.yellow;
+        foreach (Vector3Int station in Stations)
+            Gizmos.DrawWireSphere(station + TopLeft + new Vector3(0.5f, 0.5f, 0), 0.25f);
     }
 }

@@ -11,19 +11,19 @@ public class SignalController : MonoBehaviour
     public bool IsEditable = true;
     [Header("Strength (height of the curve)")]
     public float ParamStrength;
-    private const double StrengthStep = 0.1;
-    private const double MinStrength = 0.1;
-    private const double MaxStrength = 2;
+    private const double STRENGTH_STEP = 0.1;
+    private const double MIN_STRENGTH = 0.1;
+    private const double MAX_STRENGTH = 2;
     [Header("Frequency (width)")]
     public float ParamFrequency;
-    private const double FrequencyStep = 0.05;
-    private const double MinFrequency = 0.1;
-    private const double MaxFrequency = 0.8;
+    private const double FREQUENCY_STEP = 0.05;
+    private const double MIN_FREQUENCY = 0.1;
+    private const double MAX_FREQUENCY = 0.8;
     [Header("Fourier (sharpness, between simple sin to sawtooth)")]
     public float ParamFourier;
-    private const double FourierStep = 1;
-    private const double MinFourier = 1;
-    private const double MaxFourier = 7;
+    private const double FOURIER_STEP = 1;
+    private const double MIN_FOURIER = 1;
+    private const double MAX_FOURIER = 7;
     [Header("Other parameters")]
     public float MinXLimit;
     public float MaxYLimit;
@@ -72,45 +72,45 @@ public class SignalController : MonoBehaviour
 
     public void IncrementStrength()
     {
-        if (IsEditable && ParamStrength < MaxStrength)
-            ParamStrength += (float) StrengthStep;
+        if (IsEditable && ParamStrength < MAX_STRENGTH)
+            ParamStrength += (float) STRENGTH_STEP;
     }
 
     public void DecrementStrength()
     {
-        if (IsEditable && ParamStrength > MinStrength)
-            ParamStrength -= (float) StrengthStep;
+        if (IsEditable && ParamStrength > MIN_STRENGTH)
+            ParamStrength -= (float) STRENGTH_STEP;
     }
 
     public void IncrementFrequency()
     {
-        if (IsEditable && ParamFrequency < MaxFrequency)
-            ParamFrequency += (float) FrequencyStep;
+        if (IsEditable && ParamFrequency < MAX_FREQUENCY)
+            ParamFrequency += (float) FREQUENCY_STEP;
     }
 
     public void DecrementFrequency()
     {
-        if (IsEditable && ParamFrequency > MinFrequency)
-            ParamFrequency -= (float) FrequencyStep;
+        if (IsEditable && ParamFrequency > MIN_FREQUENCY)
+            ParamFrequency -= (float) FREQUENCY_STEP;
     }
 
     public void IncrementFourier()
     {
-        if (IsEditable && ParamFourier < MaxFourier)
-            ParamFourier += (float) FourierStep;
+        if (IsEditable && ParamFourier < MAX_FOURIER)
+            ParamFourier += (float) FOURIER_STEP;
     }
 
     public void DecrementFourier()
     {
-        if (IsEditable && ParamFourier > MinFourier)
-            ParamFourier -= (float) FourierStep;
+        if (IsEditable && ParamFourier > MIN_FOURIER)
+            ParamFourier -= (float) FOURIER_STEP;
     }
 
     public void RandomizeSignal()
     {
-        ParamStrength = (float) Random.Range(0, (int) (MaxStrength - MinStrength) * 10) / 10 + (float) MinStrength;
-        ParamFrequency = (float) Random.Range(0, (int) (MaxFrequency - MinFrequency) * 100) / 100 + (float) MinFrequency;
-        ParamFourier = Random.Range((int) MinFourier, (int) MaxFourier);
+        ParamStrength = (float) Random.Range(0, (int) (MAX_STRENGTH - MIN_STRENGTH) * 10) / 10 + (float) MIN_STRENGTH;
+        ParamFrequency = (float) Random.Range(0, (int) (MAX_FREQUENCY - MIN_FREQUENCY) * 100) / 100 + (float) MIN_FREQUENCY;
+        ParamFourier = Random.Range((int) MIN_FOURIER, (int) MAX_FOURIER);
     }
 
     public IEnumerator Move()

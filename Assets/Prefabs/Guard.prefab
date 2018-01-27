@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartPosition: {x: 8, y: 1}
-  MovePerTurn: 64
+  MovePerTurn: 4
   LoopMode: 0
   Waypoints:
   - {x: 8, y: 1}

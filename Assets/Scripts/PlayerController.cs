@@ -27,4 +27,11 @@ public class PlayerController : ALivingEntityController
         CancelObjective();
         yield return base.PostTurn();
     }
+
+    protected override IEnumerator OnMove()
+    {
+        if (!GameManager.Instance.Map.IsStation(Position)) yield break;
+        yield return GameManager.Instance.ShowMinigame();
+        GameManager.Instance.Map.RemoveStationAt(Position);
+    }
 }

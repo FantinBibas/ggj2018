@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public Map Map { get; private set; }
 
+    public HackGameManager MinigamePrefab;
+
     public bool PlayerTurn
     {
         get { return Player.IsCurrentTurn; }
@@ -17,7 +19,7 @@ public class GameManager : MonoBehaviour
     public PlayerController Player { get; private set; }
     private ALivingEntityController[] _entities;
 
-    private void Start()
+    private void Awake()
     {
         if (Instance != null)
         {
@@ -27,13 +29,17 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             Map = FindObjectOfType<Map>();
-            if (MapGenerator != null)
-                MapGenerator.GenerateMap(Map.Grid);
-            Map.Init();
             _entities = FindObjectsOfType<ALivingEntityController>().ToArray();
             Player = FindObjectOfType<PlayerController>();
-            StartCoroutine(MainLoop());
         }
+    }
+
+    private void Start()
+    {
+        if (MapGenerator != null)
+            MapGenerator.GenerateMap(Map.Grid);
+        Map.Init();
+        StartCoroutine(MainLoop());
     }
 
     private IEnumerator MainLoop()
@@ -47,29 +53,35 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Update()
+    public IEnumerator ShowMinigame()
+    {
+        HackGameManager minigame = Instantiate(MinigamePrefab);
+        minigame.name = "__minigame";
+        Map.gameObject.gameObject.SetActive(false);
+        while (!minigame.IsOver)
+            yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(3);
+        Destroy(minigame.gameObject);
+        Map.gameObject.gameObject.SetActive(true);
+    }
+
+/*    private void Update()
     {
         foreach (ALivingEntityController entity in _entities)
         {
-            if (entity.CompareTag("Guard"))
-            {
-                RaycastHit2D hit;
-                GuardController guard = entity.GetComponent<GuardController>();
-                Vector3 rayDirection = Player.transform.position - entity.transform.position;
-                float rayRange = Vector3.Distance(Player.transform.position, entity.transform.position);
+            if (!entity.CompareTag("Guard")) continue;
+            GuardController guard = entity.GetComponent<GuardController>();
+            Vector3 rayDirection = Player.transform.position - entity.transform.position;
+            float rayRange = Vector3.Distance(Player.transform.position, entity.transform.position);
 
-                if (Vector3.Angle(rayDirection, entity.Direction) <=
-                    guard.ViewAngle * 0.5f &&
-                    rayRange < guard.ViewRange &&
-                    rayRange <= guard.ViewRange)
-                {
-                    hit = Physics2D.Raycast(entity.transform.position, rayDirection, guard.ViewRange);
-                    if (hit.transform.CompareTag("Player"))
-                    {
-                        Debug.Log("Hit Player");
-                    }
-                }
+            if (!(Vector3.Angle(rayDirection, entity.Direction) <=
+                  guard.ViewAngle * 0.5f) || !(rayRange < guard.ViewRange) ||
+                !(rayRange <= guard.ViewRange)) continue;
+            RaycastHit2D hit = Physics2D.Raycast(entity.transform.position, rayDirection, guard.ViewRange);
+            if (hit.transform.CompareTag("Player"))
+            {
+                Debug.Log("Hit Player");
             }
         }
-    }
+    } */
 }

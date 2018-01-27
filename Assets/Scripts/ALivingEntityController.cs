@@ -67,6 +67,7 @@ public abstract class ALivingEntityController : MonoBehaviour, ITurnBasedEntity
             yield return new WaitForEndOfFrame();
         }
         transform.position = target;
+        yield return OnMove();
         if (_animator)
             _animator.SetBool("moving", false);
         if (_objective.Length != 0) yield break;
@@ -81,6 +82,11 @@ public abstract class ALivingEntityController : MonoBehaviour, ITurnBasedEntity
         if (_objective == null)
             return 0;
         return (int) Mathf.Ceil((float) _objective.Length / MovePerTurn);
+    }
+
+    protected virtual IEnumerator OnMove()
+    {
+        yield break;
     }
 
     protected virtual IEnumerator PreTurn()

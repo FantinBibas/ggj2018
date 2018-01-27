@@ -72,4 +72,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 897e1274f9ea46a4d91dcf243c7b82cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MinigamePrefab: {fileID: 114455505604018180, guid: dd0acbd4112e36c43a2ace6b5faac2dd,
+    type: 2}
   MapGenerator: {fileID: 0}
