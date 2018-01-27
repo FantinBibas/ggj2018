@@ -15,6 +15,9 @@ public class GuardController : ALivingEntityController
     
     public Vector2Int[] Waypoints;
     private int _currentWaypointIndex;
+    public float AudioRange = 2f;
+    public float ViewRange = 10f;
+    public float ViewAngle = 120f;
 
     private Vector2Int NextWaypoint
     {

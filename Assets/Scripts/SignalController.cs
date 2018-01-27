@@ -7,11 +7,24 @@ public class SignalController : MonoBehaviour
 {
     public TrailRenderer TrailA;
     public TrailRenderer TrailB;
+    [Header("Strength (height of the curve)")]
     public float ParamStrength;
+    private const double StrengthStep = 0.1;
+    private const double MinStrength = 0.1;
+    private const double MaxStrength = 2;
+    [Header("Frequency (width)")]
     public float ParamFrequency;
+    private const double FrequencyStep = 0.05;
+    private const double MinFrequency = 0.1;
+    private const double MaxFrequency = 0.8;
+    [Header("Fourier (sharpness, between simple sin to sawtooth)")]
     public float ParamFourier;
-    public float MinLimit;
-    public float MaxLimit;
+    private const double FourierStep = 1;
+    private const double MinFourier = 1;
+    private const double MaxFourier = 7;
+    [Header("Other parameters")]
+    public float MinXLimit;
+    public float MaxYLimit;
     public float YOffset;
     public float Speed;
 
@@ -21,7 +34,7 @@ public class SignalController : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawLine(new Vector3(MinLimit, YOffset, 0), new Vector3(MaxLimit, YOffset, 0));
+        Gizmos.DrawLine(new Vector3(MinXLimit, YOffset, 0), new Vector3(MaxYLimit, YOffset, 0));
     }
 
     private float Fourier(float x)
@@ -46,8 +59,8 @@ public class SignalController : MonoBehaviour
     private bool increasePosition()
     {
         _currentPosition += Speed;
-        if (!(_currentPosition >= MaxLimit)) return false;
-        _currentPosition = MinLimit;
+        if (!(_currentPosition >= MaxYLimit)) return false;
+        _currentPosition = MinXLimit;
         _tempTrail = TrailA;
         TrailA = TrailB;
         TrailB = _tempTrail;
@@ -55,9 +68,45 @@ public class SignalController : MonoBehaviour
 
     }
 
+    public void IncrementStrength()
+    {
+        if (ParamStrength < MaxStrength)
+            ParamStrength += (float) StrengthStep;
+    }
+
+    public void DecrementStrength()
+    {
+        if (ParamStrength > MinStrength)
+            ParamStrength -= (float) StrengthStep;
+    }
+
+    public void IncrementFrequency()
+    {
+        if (ParamFrequency < MaxFrequency)
+            ParamFrequency += (float) FrequencyStep;
+    }
+
+    public void DecrementFrequency()
+    {
+        if (ParamFrequency > MinFrequency)
+            ParamFrequency -= (float) FrequencyStep;
+    }
+
+    public void IncrementFourier()
+    {
+        if (ParamFourier < MaxFourier)
+            ParamFourier += (float) FourierStep;
+    }
+
+    public void DecrementFourier()
+    {
+        if (ParamFourier > MinFourier)
+            ParamFourier -= (float) FourierStep;
+    }
+
     public IEnumerator Move()
     {
-        _currentPosition = MinLimit;
+        _currentPosition = MinXLimit;
         while (true)
         {
             increasePosition();
