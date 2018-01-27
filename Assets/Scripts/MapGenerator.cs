@@ -85,36 +85,68 @@ public class MapGenerator : AMapGenerator
     {
         Grid room;
         Vector2Int? roomPos;
+        int length = 1;
+        Vector2Int initPos = pos;
+        Tilemap tmp = _grid.GetComponentsInChildren<Tilemap>().FirstOrDefault(t => t.gameObject.name == "Ground");
+        int maxTry = 0;
         do
         {
-            for (int i = 0; i < PathSize; i++)
-            {
+            if (maxTry > 100) return null;
+            for (int i = 0; i < PathSize; i++) {
                 pos = Direction.GoAuto(new Vector2Int(pos.x, pos.y), 1, door.Dir);
-                Tilemap firstOrDefault = _grid.GetComponentsInChildren<Tilemap>()
-                    .FirstOrDefault(t => t.gameObject.name == "Path");
-                if (firstOrDefault != null)
-                    firstOrDefault
-                        .SetTile(new Vector3Int(pos.x, pos.y, 0), PathTile);
+                length++;
             }
-
-            pos = Direction.GoAuto(new Vector2Int(pos.x, pos.y), 1, door.Dir);
+            if (tmp && !TestCol(tmp, pos, new Vector2Int(1, 1)))
+                return null;
             room = AvailableRooms[Random.Range(0, AvailableRooms.Length)];
-            roomPos = CanInsertRoom(room.GetComponent<Room>(), new Vector2Int(pos.x, pos.y), door.Dir);
+            roomPos = CanInsertRoom(room.GetComponent<Room>(), new Vector2Int(pos.x, pos.y), door.Dir);    
         } while (roomPos == null);
-
+        
+        drawPath(pos, length, room.GetComponent<Room>().From);
         room.GetComponent<Room>().Pos = roomPos.GetValueOrDefault();
         return room;
     }
 
+    public void drawPath(Vector2Int pos, int length, Direction.to dir)
+    {
+        for (int i = 0; i < length; i++) {
+            Tilemap firstOrDefault = _grid.GetComponentsInChildren<Tilemap>()
+                .FirstOrDefault(t => t.gameObject.name == "Path");
+            if (firstOrDefault != null)
+                firstOrDefault
+                    .SetTile(new Vector3Int(pos.x, pos.y, 0), PathTile);
+            pos = Direction.GoAuto(new Vector2Int(pos.x, pos.y), 1, dir);
+        }
+    }
+    
     public Vector2Int? CanInsertRoom(Room room, Vector2Int pos, Direction.to dir)
     {
+        Vector2Int roomPos;
+        Tilemap tmp;
         foreach (RoomDoor door in room.Doors)
         {
             if (Direction.GetOpposite(door.Dir) != dir) continue;
             room.From = door.Dir;
-            return room.PosFromDoor(door, pos);
+            roomPos = room.PosFromDoor(door, pos);
+            tmp = _grid.GetComponentsInChildren<Tilemap>().FirstOrDefault(t => t.gameObject.name == "Path");
+            if (!TestCol(tmp, roomPos, room.Size)) continue;
+            tmp = _grid.GetComponentsInChildren<Tilemap>().FirstOrDefault(t => t.gameObject.name == "Ground");
+            if (!TestCol(tmp, roomPos, room.Size)) continue;
+            return roomPos;
         }
-
         return null;
+    }
+
+    public bool TestCol(Tilemap toTest, Vector2Int pos, Vector2Int size)
+    {
+        for (int x = pos.x - 1; x < pos.x + size.x + 1; x++)
+        {
+            for (int y = pos.y - 1; y < pos.y + size.y + 1; y++)
+            {
+                if (toTest.HasTile(new Vector3Int(x, y, 0)))
+                    return false;
+            }
+        }
+        return true;
     }
 }
