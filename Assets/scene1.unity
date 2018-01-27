@@ -283,6 +283,10 @@ MonoBehaviour:
   - {fileID: 2569400265808320772, guid: bb54a531ed3e4914d9fd8b8bd1861582, type: 2}
   - {fileID: 2569400266871713750, guid: 4b45c09525b47ce4ba6befb0c905f990, type: 2}
   - {fileID: 2569400265574532634, guid: 25eaffe5108b7e44799d66e3b8e4cc9c, type: 2}
+  - {fileID: 2569400268050673576, guid: cf061d01b506a774095da18f13c7bb12, type: 2}
+  - {fileID: 2569400265550488556, guid: be759ddd934c9da479b23656a445bf54, type: 2}
+  - {fileID: 2569400267798834430, guid: 31bf27ee3238b8444881279860f5c19b, type: 2}
+  - {fileID: 2569400268533954630, guid: 2748cdc9164eef94da4f5e9566eace59, type: 2}
   PathTile: {fileID: 11400000, guid: b9a5121e223e1b54494d336a7fb9a9a4, type: 2}
   PathSize: 15
 --- !u!4 &530219519 stripped
@@ -343,7 +347,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

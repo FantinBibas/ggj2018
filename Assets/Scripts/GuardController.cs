@@ -52,13 +52,14 @@ public class GuardController : ALivingEntityController
         Vector3Int pos = Position;
         Map map = GameManager.Instance.Map;
         Vector3Int dir = new Vector3Int((int) Direction.x, (int) Direction.y, 0);
+        int remaining = 5;
         while (!pos.Equals(player.Position))
         {
-            if (map.IsSolid(pos))
+            if (map.IsSolid(pos) || remaining == 0)
                 return;
             pos += dir;
+            remaining -= 1;
         }
-
         GameObject.FindGameObjectWithTag("GlobalLoseMsg").GetComponent<Canvas>().enabled = true;
         Camera.main.GetComponent<MapCamera>().StopFollowing();
         GameManager.Instance.StopGame();
