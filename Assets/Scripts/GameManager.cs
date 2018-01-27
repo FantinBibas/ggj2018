@@ -5,7 +5,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public Grid Map { get; private set; }
+    public Map Map { get; private set; }
+
+    public AMapGenerator MapGenerator;
 
     private void Start()
     {
@@ -16,7 +18,10 @@ public class GameManager : MonoBehaviour
         else
         {
             Instance = this;
-            Map = FindObjectOfType<Grid>();
+            Map = FindObjectOfType<Map>();
+            if (MapGenerator != null)
+                MapGenerator.GenerateMap(Map.Grid);
+            Map.Init();
             PlayerController player = FindObjectOfType<PlayerController>();
             Debug.Log(player.SetObjective(new Vector3Int(5, 1, 0)));
             StartCoroutine(player.DoTurn());
