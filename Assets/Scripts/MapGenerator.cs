@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class MapGenerator : AMapGenerator
@@ -6,60 +7,72 @@ public class MapGenerator : AMapGenerator
     private Grid _grid;
     public Grid FirstNode;
     public Grid[] AvailableRooms;
-    
+
     public override void GenerateMap(Grid grid)
     {
         _grid = grid;
         FirstNode.GetComponent<Room>().Pos = new Vector2Int(0, 0);
+        AddToGrid(FirstNode);
         GenerateFromRoom(FirstNode, 1);
     }
 
     public bool GenerateFromRoom(Grid room, float prob)
     {
         Room theRoom = room.GetComponent<Room>();
-        Grid NewRoom;
-        
+
         foreach (RoomDoor door in theRoom.Doors)
         {
-            if (Random.Range(0, 100) < prob * 100) {
-                if (!door.isLink) {
-                    NewRoom = GenerateFromDoor(door, room.GetComponent<Room>().DoorPos(door));
-                    Debug.Log("(" + NewRoom.GetComponent<Room>().Pos.x + ", " + NewRoom.GetComponent<Room>().Pos.x + ")");
-                    GenerateFromRoom(NewRoom, 3 * prob / 4);
-                    AddToGrid(NewRoom);
-                }
-            }
+            if (!(Random.Range(0, 100) < prob * 100)) continue;
+            if (door.isLink) continue;
+            Grid newRoom = GenerateFromDoor(door, room.GetComponent<Room>().DoorPos(door));
+            Debug.Log("(" + newRoom.GetComponent<Room>().Pos.x + ", " + newRoom.GetComponent<Room>().Pos.x + ")");
+            GenerateFromRoom(newRoom, 3 * prob / 4);
+            AddToGrid(newRoom);
         }
         return true;
     }
 
-    public void CopySquare(Tilemap dest, Tilemap from, Vector2Int pos, Vector2Int size)
+    public void CopySquare(Tilemap dest, Tilemap from, Vector2Int pos)
     {
-        for (int x = 0; x < size.x; x++)
+        BoundsInt bounds = from.cellBounds;
+        for (int x = bounds.xMin; x < bounds.xMax; x++)
         {
-            for (int y = 0; y < size.y; y++)
+            for (int y = bounds.yMin; y < bounds.yMax; y++)
             {
                 dest.SetTile(new Vector3Int(x + pos.x, y + pos.y, 0), from.GetTile(new Vector3Int(x, y, 0)));
             }
         }
     }
-    
+
     public void AddToGrid(Grid toAdd)
     {
         Tilemap[] tiles = toAdd.GetComponentsInChildren<Tilemap>();
         foreach (Tilemap tmp in tiles)
         {
+            Tilemap tilemap = _grid
+                .GetComponentsInChildren<Tilemap>()
+                .FirstOrDefault(t => t.gameObject.name == tmp.gameObject.name);
+            if (tilemap == null)
+            {
+                GameObject go = new GameObject(tmp.gameObject.name);
+                go.transform.parent = _grid.transform;
+                tilemap = go.AddComponent<Tilemap>();
+                TilemapRenderer r = go.AddComponent<TilemapRenderer>();
+                r.sortingLayerName = tmp.GetComponent<TilemapRenderer>().sortingLayerName;
+            }
+            Room room = toAdd.GetComponent<Room>();
+            CopySquare(tilemap, tmp, room.Pos);
         }
     }
-    
+
     public Grid GenerateFromDoor(RoomDoor door, Vector2Int pos)
     {
         Grid room;
         Vector2Int? roomPos;
-        Direction.to dir;
-        
+
         do
         {
+            Direction.to dir;
             do
             {
                 dir = Direction.IntToDir(Random.Range(0, 4));
@@ -72,18 +85,16 @@ public class MapGenerator : AMapGenerator
         room.GetComponent<Room>().Pos = new Vector2Int(tmp.x, tmp.y);
         return room;
     }
-    
+
     public Vector2Int? CanInsertRoom(Room room, Vector2Int pos)
     {
         foreach (RoomDoor door in room.Doors)
         {
             pos = Direction.GoAuto(pos, 1, door.Dir);
             pos = room.PosFromDoor(door, pos);
-            if (room.TestPos(_grid, pos))
-            {
-                door.isLink = true;
-                return pos;
-            }
+            if (!room.TestPos(_grid, pos)) continue;
+            door.isLink = true;
+            return pos;
         }
         return null;
     }

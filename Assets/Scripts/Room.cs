@@ -53,12 +53,13 @@ public class Room : MonoBehaviour
     {
         foreach (Tilemap map in grid.GetComponentsInChildren<Tilemap>())
         {
-            for (int x = pos.x; x < Size.x + pos.x; pos.x++) {
+            /*for (int x = pos.x; x < Size.x + pos.x; pos.x++) {
                 for (int y = pos.y; y < Size.y + pos.y; pos.y++) {
                     if (map.HasTile(new Vector3Int(x, y, 0)))
                         return false;
                 }
-            }                  
+            } */
+            
         }
         return true;
     }
