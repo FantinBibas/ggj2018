@@ -3,11 +3,11 @@ using UnityEngine;
 
 public abstract class ALivingEntityController : MonoBehaviour, ITurnBasedEntity
 {
-    private const int SMOOTH_MOVEMENT_STEPS = 20;
+    private const int SMOOTH_MOVEMENT_STEPS = 10;
 
     private Animator _animator;
 
-    public Vector2Int StartPosition;
+//    public Vector2Int StartPosition;
     [Range(1, 64)] public int MovePerTurn = 1;
 
     private Path _objective;
@@ -25,11 +25,22 @@ public abstract class ALivingEntityController : MonoBehaviour, ITurnBasedEntity
     private void Awake()
     {
         Direction = new Vector3(1, 0, 0);
-        Position = new Vector3Int(StartPosition.x, StartPosition.y, 0);
         IsMoving = false;
         _init = false;
         _animator = GetComponent<Animator>();
         Init();
+    }
+
+    private void Start()
+    {
+        Map map = GameManager.Instance.Map;
+        Vector3Int pos = new Vector3Int(Mathf.FloorToInt(transform.position.x),
+            Mathf.FloorToInt(transform.position.y), 0);
+        pos -= new Vector3Int(map.X, map.Y, 0);
+        if (pos.x < 0 || pos.x >= map.Width || pos.y < 0 || pos.y >= map.Height)
+            Destroy(this);
+        else
+            Position = new Vector3Int(pos.x, pos.y, 0);
     }
 
     protected virtual void Init()
@@ -62,7 +73,7 @@ public abstract class ALivingEntityController : MonoBehaviour, ITurnBasedEntity
             _animator.SetBool("moving", true);
         for (int step = 0; step < SMOOTH_MOVEMENT_STEPS; step += 1)
         {
-            Direction = target - transform.position;
+            Direction = (target - transform.position).normalized;
             transform.position = Vector3.Lerp(start, target, (float) step / SMOOTH_MOVEMENT_STEPS);
             yield return new WaitForEndOfFrame();
         }
