@@ -8,9 +8,9 @@ public class EnemyController : MonoBehaviour
 {
     private Map _map;
     public Vector3Int[] RoundPosition;
-    public uint audioRange = 40;
-    public uint viewRange = 40;
-    public float viewAngle = 180;
+    public float audioRange = 40f;
+    public float viewRange = 40f;
+    public float viewAngle = 180f;
     public Vector3Int Position = Vector3Int.zero;
     private uint _pointPos;
     private PlayerController _player;
@@ -36,6 +36,7 @@ public class EnemyController : MonoBehaviour
         Vector3Int endPos = GetNextPoint();
         Path path = _map.NavigateTo(startPos, endPos);
 
+        listenEnemy();
         viewEnemy();
         if (path == null)
             return;
@@ -43,22 +44,23 @@ public class EnemyController : MonoBehaviour
         {
             Position = pathPos;
             transform.position = Position;
+            listenEnemy();
             viewEnemy();
         }
-        viewEnemy();
     }
 
     private bool viewEnemy()
     {
         RaycastHit hit;
         Vector3 rayDirection = _player.transform.position - transform.position;
+        float rayRange = Vector3.Distance(_player.transform.position, transform.position);
 
-        if (Vector3.Angle(rayDirection, Vector3.right) <= viewAngle * 0.5f )
+        if (Vector3.Angle(rayDirection, Vector3.right) <= viewAngle * 0.5f && rayRange < viewRange && rayRange <= viewRange)
         {
-            Debug.Log("IsIn " + Vector3.Angle(rayDirection, Vector3.right));
+            Debug.Log("View Player " + Vector3.Angle(rayDirection, Vector3.right));
             if (Physics.Raycast(transform.position, rayDirection, out hit, viewRange))
             {
-                Debug.Log("Player");
+                Debug.Log("Hit something");
                 return hit.transform.CompareTag("player");
             }
         }
@@ -66,8 +68,22 @@ public class EnemyController : MonoBehaviour
         return false;
     }
 
+    private bool listenEnemy()
+    {
+        float rayRange = Vector3.Distance(_player.transform.position, transform.position);
+
+        if (rayRange <= audioRange)
+        {
+            Debug.Log("Listen Player");
+            return true;
+        }
+
+        return false;
+    }
+
     private void Update()
     {
+        listenEnemy();
         viewEnemy();
     }
 
