@@ -35,8 +35,7 @@ public class menuScript : MonoBehaviour
 
     public void StartLevel()
     {
-        Debug.Log("yo\n");
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(1);
     }
 
     public void ExitGame()

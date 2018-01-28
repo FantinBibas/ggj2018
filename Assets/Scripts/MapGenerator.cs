@@ -199,9 +199,7 @@ public class MapGenerator : AMapGenerator
         Grid room;
         Vector2Int? roomPos;
         int length = 1;
-        Vector2Int initPos = pos;
         Tilemap tmp = _grid.GetComponentsInChildren<Tilemap>().FirstOrDefault(t => t.gameObject.name == "Ground");
-        int maxTry = 0;
         do
         {
             for (int i = 0; i < PathSize; i++)

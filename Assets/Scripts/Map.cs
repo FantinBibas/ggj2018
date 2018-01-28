@@ -14,7 +14,6 @@ public class Map : MonoBehaviour
     public Tile StationTile;
     public List<Vector3Int> Stations;
 
-
     public Grid Grid { get; private set; }
 
     public Vector3Int TopLeft

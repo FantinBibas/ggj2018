@@ -157,6 +157,11 @@ Prefab:
       propertyPath: Cap
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 114738480163563510, guid: 9fd34f2a738407841b39daa9853901f2,
+        type: 2}
+      propertyPath: NextLevel
+      value: Scenes/L1_Tranchees
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9fd34f2a738407841b39daa9853901f2, type: 2}
   m_IsPrefabParent: 0
@@ -1674,16 +1679,6 @@ Prefab:
     - target: {fileID: 4164693369851424, guid: 855bbeb458f81ec488048a34e0f52b18, type: 2}
       propertyPath: m_RootOrder
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 20969239827958692, guid: 855bbeb458f81ec488048a34e0f52b18,
-        type: 2}
-      propertyPath: orthographic size
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 114404484553498612, guid: 855bbeb458f81ec488048a34e0f52b18,
-        type: 2}
-      propertyPath: FreeMovingSpeed
-      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 855bbeb458f81ec488048a34e0f52b18, type: 2}

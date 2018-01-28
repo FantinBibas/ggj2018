@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public Map Map { get; private set; }
 
+    public string NextLevel;
     public HackGameManager MinigamePrefab;
 
     public bool PlayerTurn
@@ -89,6 +90,11 @@ public class GameManager : MonoBehaviour
         Map.gameObject.gameObject.SetActive(true);
     }
 
+    private IEnumerator GotoNextLevel()
+    {
+        yield return new WaitForSeconds(3);
+        SceneManager.LoadScene(NextLevel);
+    }
 
     private static IEnumerator Restart()
     {
@@ -125,4 +131,9 @@ public class GameManager : MonoBehaviour
             }
         }
     } */
+    public void Win()
+    {
+        StopGame();
+        StartCoroutine(GotoNextLevel());
+    }
 }
