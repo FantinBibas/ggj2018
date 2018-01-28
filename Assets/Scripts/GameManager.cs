@@ -34,6 +34,8 @@ public class GameManager : MonoBehaviour
         get { return _entities.OfType<GuardController>(); }
     }
 
+    public AudioSource GameOverSoundSource;
+
     private ALivingEntityController[] _entities;
     private bool _end;
 
@@ -143,6 +145,7 @@ public class GameManager : MonoBehaviour
     {
         Camera.main.GetComponent<MapCamera>().StopFollowing();
         StopGame();
+        GameOverSoundSource.Play();
         Map.gameObject.SetActive(false);
         Instantiate(GameOverPrefab);
         StartCoroutine(Restart());
