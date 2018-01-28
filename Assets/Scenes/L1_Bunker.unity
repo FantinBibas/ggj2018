@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311918, g: 0.3807398, b: 0.35872716, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -134,7 +134,7 @@ Prefab:
     - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
         type: 2}
       propertyPath: AvailableRooms.Array.size
-      value: 14
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4504090479563626, guid: 9fd34f2a738407841b39daa9853901f2, type: 2}
       propertyPath: m_LocalPosition.x
@@ -171,7 +171,7 @@ Prefab:
     - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
         type: 2}
       propertyPath: Cap
-      value: 100
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 114738480163563510, guid: 9fd34f2a738407841b39daa9853901f2,
         type: 2}
@@ -303,6 +303,12 @@ Prefab:
       propertyPath: WinSoundSource
       value: 
       objectReference: {fileID: 1673585782}
+    - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
+        type: 2}
+      propertyPath: AvailableRooms.Array.data[14]
+      value: 
+      objectReference: {fileID: 2569400268244882274, guid: 196974bfebac6a049a560f30e5315ec0,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9fd34f2a738407841b39daa9853901f2, type: 2}
   m_IsPrefabParent: 0
