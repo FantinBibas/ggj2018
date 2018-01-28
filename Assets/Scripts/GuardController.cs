@@ -60,9 +60,7 @@ public class GuardController : ALivingEntityController
             pos += dir;
             remaining -= 1;
         }
-        GameObject.FindGameObjectWithTag("GlobalLoseMsg").GetComponent<Canvas>().enabled = true;
-        Camera.main.GetComponent<MapCamera>().StopFollowing();
-        GameManager.Instance.StopGame();
+        GameManager.Instance.GameOver();
     }
 
     protected override IEnumerator OnMove()
