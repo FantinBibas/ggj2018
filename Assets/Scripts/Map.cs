@@ -152,7 +152,7 @@ public class Map : MonoBehaviour
         }
     }
     
-    private const int A_STAR_LIMIT = 100;
+    private const int AStarLimit = 30;
 
     public Path NavigateTo(Vector3Int from, Vector3Int to)
     {
@@ -192,7 +192,7 @@ public class Map : MonoBehaviour
                 if (!openSet.Contains(node))
                     openSet.Add(node);
                 int tentativeGScore = current.GScore + 1;
-                if (tentativeGScore > A_STAR_LIMIT)
+                if (tentativeGScore > AStarLimit)
                     return null;
                 if (tentativeGScore >= node.GScore)
                     continue;
