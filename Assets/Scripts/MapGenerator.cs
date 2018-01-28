@@ -22,6 +22,7 @@ public class MapGenerator : AMapGenerator
     
     [Range(1, 500)]
     public int Cap = 100;
+    
 
     [Range(0.01f, 0.99f)]
     public float Rate = 1f;
