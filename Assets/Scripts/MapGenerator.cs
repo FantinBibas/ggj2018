@@ -184,9 +184,11 @@ public class MapGenerator : AMapGenerator
             GameManager.Instance.Map.Stations.Add(new Vector3Int(stationPosition.x, stationPosition.y, 0));
         }
 
-        foreach (GuardController guard in toAdd.GetComponentsInChildren<GuardController>())
+        foreach (Transform child in toAdd.transform)
         {
-            GameObject go = Instantiate(guard.gameObject);
+            if (child.GetComponent<Tilemap>() != null)
+                continue;
+            GameObject go = Instantiate(child.gameObject);
             go.transform.parent = _grid.transform;
             go.transform.position += new Vector3(room.Pos.x, room.Pos.y);
         }
