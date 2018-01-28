@@ -166,7 +166,6 @@ public class MapGenerator : AMapGenerator
                 .FirstOrDefault(t => t.gameObject.name == tmp.gameObject.name);
             if (tilemap == null)
             {
-                Debug.Log(tmp.gameObject.name + " " + tmp.gameObject.tag);
                 GameObject go = new GameObject(tmp.gameObject.name) {tag = tmp.gameObject.tag};
                 go.transform.parent = _grid.transform;
                 tilemap = go.AddComponent<Tilemap>();
