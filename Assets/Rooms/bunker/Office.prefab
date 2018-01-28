@@ -165,7 +165,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Size: {x: 10, y: 16}
-  RadarSpawns: []
+  RadarSpawns:
+  - {x: 3, y: 6}
+  - {x: 9, y: 7}
 --- !u!114 &114580273529671988
 MonoBehaviour:
   m_ObjectHideFlags: 1
