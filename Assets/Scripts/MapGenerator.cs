@@ -11,6 +11,9 @@ public class MapGenerator : AMapGenerator
     public Grid[] AvailableRooms;
     public Tile PathTile;
     public ushort PathSize = 15;
+    
+    [Range(1, 1000)]
+    public int cap = 100;
 
     [Range(0.01f, 0.99f)]
     public float Rate = 1f;
@@ -26,6 +29,8 @@ public class MapGenerator : AMapGenerator
 
     public bool GenerateFromRoom(Grid room, float prob, Direction.to from)
     {
+        if (cap <= 0) return false;
+        cap--;
         if (room == null)
             return false;
         Room theRoom = room.GetComponent<Room>();
@@ -37,7 +42,6 @@ public class MapGenerator : AMapGenerator
             AddToGrid(newRoom);
             GenerateFromRoom(newRoom, prob * Rate, from);
         }
-
         return true;
     }
 
