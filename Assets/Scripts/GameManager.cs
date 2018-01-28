@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class GameManager : MonoBehaviour
     public Map Map { get; private set; }
 
     public HackGameManager MinigamePrefab;
+
+    public Text StationsLeftText;
+    public GameObject ClosestStationIndicator;
 
     public bool PlayerTurn
     {
@@ -52,7 +56,33 @@ public class GameManager : MonoBehaviour
         Player = FindObjectOfType<PlayerController>();
         foreach (ALivingEntityController e in _entities)
             e.OnCreate();
+        DirectClosestStationIndicator();
         StartCoroutine(MainLoop());
+    }
+
+    private void DirectClosestStationIndicator()
+    {
+        if (Map.Stations.Count == 0)
+        {
+            ClosestStationIndicator.SetActive(false);
+        }
+        else
+        {
+            Vector3Int? closest = null;
+            float minDist = 0;
+            foreach (Vector3Int station in Map.Stations)
+            {
+                float tmpDist = Vector3Int.Distance(Player.Position + Map.TopLeft, station);
+                if (closest != null && !(tmpDist < minDist)) continue;
+                closest = station;
+                minDist = tmpDist;
+            }
+
+            if (closest == null) return;
+            float angle = Vector3.SignedAngle(Player.Position + Map.TopLeft, closest.Value, Vector3.back);
+            ClosestStationIndicator.transform.eulerAngles = new Vector3(0, 0, angle);
+        }
+        StationsLeftText.text = Map.Stations.Count.ToString();
     }
 
     private IEnumerator MainLoop()
@@ -62,7 +92,10 @@ public class GameManager : MonoBehaviour
         {
             Coroutine[] coroutines = _entities.Select(entity => StartCoroutine(entity.DoTurn())).ToArray();
             while (!_end && _entities.Any(e => e.IsCurrentTurn))
+            {
+                DirectClosestStationIndicator();
                 yield return new WaitForEndOfFrame();
+            }
         }
     }
 
