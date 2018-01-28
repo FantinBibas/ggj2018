@@ -44,6 +44,8 @@ CGPROGRAM
             fact = sin(fact * 3.14) / 6;
             fixed4 color = _Color;
             fixed4 texColor = tex2D(_MainTex, pos);
+            pos.xy -= 0.5;
+            fact += dot(pos.xy, pos.xy) * 2;
             return  texColor * (1 - fact) + color * fact;
          }
  
