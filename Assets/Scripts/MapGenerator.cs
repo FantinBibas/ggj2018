@@ -11,9 +11,10 @@ public class MapGenerator : AMapGenerator
     public Grid[] AvailableRooms;
     public Tile PathTile;
     
-    [Range(0, 100)]
     public Tile WallTile;
     public Tile FillTile;
+    
+    [Range(0, 100)]
     public ushort PathSize = 15;
     
     [Range(1, 500)]
