@@ -39,9 +39,8 @@ CGPROGRAM
         fixed4 frag(v2f i) : COLOR {
             fixed4 pos = i.sPos;
             pos.y += (cos((pos.x + 0.5) * 3.14) + 1) / 50.0 * sin((pos.y - 0.5) * 3.14);
-            if (pos.y < 0 || pos.y > 1) return _Color;
             fixed fact = (pos.y + _Time.x) * 30 % 1;
-            fact = sin(fact * 3.14) / 6;
+            fact = sin(fact * 3.14) / 20;
             fixed4 color = _Color;
             fixed4 texColor = tex2D(_MainTex, pos);
             pos.xy -= 0.5;
