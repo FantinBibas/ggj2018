@@ -12,7 +12,7 @@ public class Map : MonoBehaviour
     public int Width { get; private set; }
     public int Height { get; private set; }
     public Tile StationTile;
-    public Vector3Int[] Stations;
+    public List<Vector3Int> Stations;
 
 
     public Grid Grid { get; private set; }
@@ -84,12 +84,12 @@ public class Map : MonoBehaviour
 
     public void RemoveStationAt(Vector3Int pos)
     {
-        Stations = Stations.Where(s => !s.Equals(pos)).ToArray();
+        Stations = Stations.Where(s => !s.Equals(pos)).ToList();
     }
 
     public bool IsStation(Vector3Int pos)
     {
-        return Stations.Where(s => s.Equals(pos)).Any();
+        return Stations.Any(s => s.Equals(pos + TopLeft));
     }
 
     private class PathfindingNode
