@@ -34,6 +34,8 @@ public class GameManager : MonoBehaviour
         get { return _entities.OfType<GuardController>(); }
     }
 
+    public AudioSource GameOverSoundSource;
+
     private ALivingEntityController[] _entities;
     private bool _end;
 
@@ -55,6 +57,8 @@ public class GameManager : MonoBehaviour
         if (MapGenerator != null)
             MapGenerator.GenerateMap(Map.Grid);
         Map.Init();
+        if (Map.Stations.Count == 0)
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         _entities = FindObjectsOfType<ALivingEntityController>().ToArray();
         Player = FindObjectOfType<PlayerController>();
         foreach (ALivingEntityController e in _entities)
@@ -143,6 +147,7 @@ public class GameManager : MonoBehaviour
     {
         Camera.main.GetComponent<MapCamera>().StopFollowing();
         StopGame();
+        GameOverSoundSource.Play();
         Map.gameObject.SetActive(false);
         Instantiate(GameOverPrefab);
         StartCoroutine(Restart());

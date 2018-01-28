@@ -15,8 +15,7 @@ public class menuScript : MonoBehaviour
         quitMenu = quitMenu.GetComponent<Canvas>();
         startText = startText.GetComponent<Button>();
         exitText = exitText.GetComponent<Button>();
-        quitMenu.enabled = false;
-
+        quitMenu.enabled = true;
     }
 
     public void ExitPress()
@@ -28,8 +27,8 @@ public class menuScript : MonoBehaviour
 
     public void NoPress()
     {
-        quitMenu.enabled = false; //we'll disable the quit menu, meaning it won't be visible anymore
-        startText.enabled = true; //enable the Play and Exit buttons again so they can be clicked
+        quitMenu.enabled = false;
+        startText.enabled = true;
         exitText.enabled = true;
     }
 
@@ -41,6 +40,12 @@ public class menuScript : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            ExitGame();
     }
 
 }

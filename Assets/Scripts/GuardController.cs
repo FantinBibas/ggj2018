@@ -90,10 +90,10 @@ public class GuardController : ALivingEntityController
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Vector3Int s = new Vector3Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.y),
-            0);
+        Vector3Int s = new Vector3Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.y), 0);
         Vector3 prev = s + new Vector3(0.5f, 0.5f, 0);
+
+        Gizmos.color = Color.red;
         foreach (Vector2Int waypoint in Waypoints)
         {
             Vector3 v = new Vector3(waypoint.x + 0.5f, waypoint.y + 0.5f, 0) + s;
@@ -101,5 +101,9 @@ public class GuardController : ALivingEntityController
             Gizmos.DrawLine(prev, v);
             prev = v;
         }
+        
+                
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(s + new Vector3(0.5f, 0.5f, 0), s + new Vector3(0.5f, 0.5f, 0) + (Direction * ViewRange));
     }
 }

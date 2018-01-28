@@ -122,9 +122,7 @@ public class MapGenerator : AMapGenerator
 
     public bool GenerateFromRoom(Grid room, float prob, Direction.to from)
     {
-        print(Cap);
         if (Cap <= 0) return false;
-        Cap--;
         if (room == null)
             return false;
         Room theRoom = room.GetComponent<Room>();
@@ -132,6 +130,7 @@ public class MapGenerator : AMapGenerator
         foreach (RoomDoor door in theRoom.Doors)
         {
             if (!(Random.Range(0, 100) < prob * 100) || door.Dir == room.GetComponent<Room>().From) continue;
+            Cap--;
             if (Cap <= 0) return false;
             Grid newRoom = GenerateFromDoor(door, room.GetComponent<Room>().DoorPos(door));
             AddToGrid(newRoom);
@@ -167,7 +166,6 @@ public class MapGenerator : AMapGenerator
                 .FirstOrDefault(t => t.gameObject.name == tmp.gameObject.name);
             if (tilemap == null)
             {
-                Debug.Log(tmp.gameObject.name + " " + tmp.gameObject.tag);
                 GameObject go = new GameObject(tmp.gameObject.name) {tag = tmp.gameObject.tag};
                 go.transform.parent = _grid.transform;
                 tilemap = go.AddComponent<Tilemap>();
