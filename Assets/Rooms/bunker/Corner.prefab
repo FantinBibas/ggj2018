@@ -303,7 +303,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Size: {x: 10, y: 10}
-  RadarSpawns: []
+  RadarSpawns:
+  - {x: 6, y: 4}
+  - {x: 8, y: 2}
 --- !u!114 &114527475618439574
 MonoBehaviour:
   m_ObjectHideFlags: 1
