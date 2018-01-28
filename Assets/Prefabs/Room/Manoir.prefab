@@ -55,7 +55,6 @@ GameObject:
   - component: {fileID: 2569400267594714452}
   - component: {fileID: 114276625313747370}
   - component: {fileID: 114824799309200444}
-  - component: {fileID: 114343832648591256}
   - component: {fileID: 114215434363032680}
   m_Layer: 0
   m_Name: Manoir
@@ -325,19 +324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Size: {x: 34, y: 21}
---- !u!114 &114343832648591256
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1548443262124366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6a614b1290e69f4ea3548a40d75d945, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Pos: 17
-  Dir: 2
+  RadarSpawns: []
 --- !u!114 &114824799309200444
 MonoBehaviour:
   m_ObjectHideFlags: 1
