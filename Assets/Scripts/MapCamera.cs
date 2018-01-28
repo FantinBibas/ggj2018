@@ -6,11 +6,15 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class MapCamera : MonoBehaviour
 {
+    [Range(0.01f, 99.99f)]
+    public float FreeMovingSpeed = 1f;
+
     private Camera _camera;
     private Coroutine _moveCoroutine;
     private Vector3Int _currentPos;
 
     private bool _follow = true;
+    private bool _freeMov = false;
 
     private void Awake()
     {
@@ -49,13 +53,36 @@ public class MapCamera : MonoBehaviour
         _moveCoroutine = StartCoroutine(MoveTo(target));
     }
 
+    private void FreeMove()
+    {
+        if (_moveCoroutine != null)
+            StopCoroutine(_moveCoroutine);
+        Map map = GameManager.Instance.Map;
+        Vector3 pos = transform.position;
+        pos.x += Input.GetAxis("Horizontal") * FreeMovingSpeed;
+        pos.y += Input.GetAxis("Vertical") * FreeMovingSpeed;
+        _moveCoroutine = StartCoroutine(MoveTo(pos));
+    }
+
     private void Update()
     {
         if (!_follow) return;
         PlayerController player = GameManager.Instance.Player;
-        if (Vector3Int.Distance(_currentPos, player.Position) < 1) return;
+        if (Mathf.Abs(Input.GetAxis("Horizontal")) > float.Epsilon
+            || Mathf.Abs(Input.GetAxis("Vertical")) > float.Epsilon)
+        {
+            _freeMov = true;
+            FreeMove();
+        }
+
+        if (Vector3Int.Distance(_currentPos, player.Position) < 1 || _freeMov) return;
         CenterOn(player.Position);
         _currentPos = player.Position;
+    }
+
+    public void ReCenter()
+    {
+        _freeMov = false;
     }
 
     public void StopFollowing()
