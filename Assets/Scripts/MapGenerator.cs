@@ -10,13 +10,17 @@ public class MapGenerator : AMapGenerator
     public Grid FirstNode;
     public Grid[] AvailableRooms;
     public Tile PathTile;
+    
+    [Range(0, 100)]
     public Tile WallTile;
     public Tile FillTile;
     public ushort PathSize = 15;
+    
+    [Range(1, 500)]
+    public int Cap = 100;
 
-    [Range(1, 1000)] public int Cap = 100;
-
-    [Range(0.01f, 0.99f)] public float Rate = 1f;
+    [Range(0.01f, 0.99f)]
+    public float Rate = 1f;
 
     private BoundsInt GetGridBounds()
     {
@@ -174,6 +178,7 @@ public class MapGenerator : AMapGenerator
         int length = 1;
         Vector2Int initPos = pos;
         Tilemap tmp = _grid.GetComponentsInChildren<Tilemap>().FirstOrDefault(t => t.gameObject.name == "Ground");
+        int maxTry = 0;
         do
         {
             for (int i = 0; i < PathSize; i++)

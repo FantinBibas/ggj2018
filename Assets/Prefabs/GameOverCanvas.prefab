@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 114737944037457008}
   - component: {fileID: 114630136957949038}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: GameOverCanvas
   m_TagString: GlobalLoseMsg
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
