@@ -57,7 +57,6 @@ public class MapCamera : MonoBehaviour
     {
         if (_moveCoroutine != null)
             StopCoroutine(_moveCoroutine);
-        Map map = GameManager.Instance.Map;
         Vector3 pos = transform.position;
         pos.x += Input.GetAxis("Horizontal") * FreeMovingSpeed;
         pos.y += Input.GetAxis("Vertical") * FreeMovingSpeed;

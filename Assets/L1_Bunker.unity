@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311918, g: 0.3807398, b: 0.35872716, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -198,7 +198,7 @@ Prefab:
     - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
         type: 2}
       propertyPath: PathSize
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
         type: 2}
@@ -802,12 +802,17 @@ Prefab:
     - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
         type: 2}
       propertyPath: Cap
-      value: 350
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
         type: 2}
       propertyPath: Rate
       value: 0.99
+      objectReference: {fileID: 0}
+    - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
+        type: 2}
+      propertyPath: StationsSpawnRate
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9fd34f2a738407841b39daa9853901f2, type: 2}
@@ -2327,6 +2332,11 @@ Prefab:
         type: 2}
       propertyPath: orthographic size
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 114404484553498612, guid: 855bbeb458f81ec488048a34e0f52b18,
+        type: 2}
+      propertyPath: FreeMovingSpeed
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 855bbeb458f81ec488048a34e0f52b18, type: 2}
