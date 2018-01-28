@@ -84,7 +84,7 @@ public class Map : MonoBehaviour
 
     public void RemoveStationAt(Vector3Int pos)
     {
-        Stations = Stations.Where(s => !s.Equals(pos)).ToList();
+        Stations = Stations.Where(s => !s.Equals(pos + TopLeft)).ToList();
     }
 
     public bool IsStation(Vector3Int pos)

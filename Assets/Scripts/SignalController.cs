@@ -12,13 +12,13 @@ public class SignalController : MonoBehaviour
     [Header("Strength (height of the curve)")]
     public float ParamStrength;
     private const double STRENGTH_STEP = 0.1;
-    private const double MIN_STRENGTH = 0.1;
-    private const double MAX_STRENGTH = 2;
+    private const double MIN_STRENGTH = 1;
+    private const double MAX_STRENGTH = 4.2;
     [Header("Frequency (width)")]
     public float ParamFrequency;
     private const double FREQUENCY_STEP = 0.05;
     private const double MIN_FREQUENCY = 0.1;
-    private const double MAX_FREQUENCY = 0.8;
+    private const double MAX_FREQUENCY = 0.6;
     [Header("Fourier (sharpness, between simple sin to sawtooth)")]
     public float ParamFourier;
     private const double FOURIER_STEP = 1;

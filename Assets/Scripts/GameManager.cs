@@ -77,10 +77,15 @@ public class GameManager : MonoBehaviour
         HackGameManager minigame = Instantiate(MinigamePrefab);
         minigame.name = "__minigame";
         Map.gameObject.gameObject.SetActive(false);
+        MapCamera cam = Camera.main.GetComponent<MapCamera>();
+        float camZ = Camera.main.transform.position.z;
+        cam.StopFollowing();
+        Camera.main.transform.position = new Vector3(0, 4, camZ);
         while (!minigame.IsOver)
             yield return new WaitForEndOfFrame();
         yield return new WaitForSeconds(3);
         Destroy(minigame.gameObject);
+        cam.StartFollowing();
         Map.gameObject.gameObject.SetActive(true);
     }
 

@@ -87,6 +87,14 @@ public class MapCamera : MonoBehaviour
     public void StopFollowing()
     {
         _follow = false;
-        CenterOn(new Vector3Int(0, 0, 0));
+        if (_moveCoroutine != null)
+            StopCoroutine(_moveCoroutine);
+        transform.position = Vector3.zero;
+    }
+
+    public void StartFollowing()
+    {
+        _follow = true;
+        Update();
     }
 }

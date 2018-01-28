@@ -522,7 +522,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1887067589506596}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -7.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4662139126218510}
@@ -536,7 +536,7 @@ Transform:
   m_GameObject: {fileID: 1641782353608438}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 224733634864686364}
   - {fileID: 224146328817227804}
@@ -553,7 +553,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1125383914467724}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -7.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4662139126218510}
@@ -566,7 +566,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1051162983350950}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -7.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4662139126218510}
@@ -579,7 +579,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1528075037350690}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -7.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4955054207933650}
@@ -592,7 +592,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1015021038565400}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -7.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4955054207933650}
@@ -676,7 +676,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1682932071158530}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -7.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4955054207933650}
@@ -1280,7 +1280,7 @@ TrailRenderer:
   m_Time: 1
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 0.06
+    widthMultiplier: 0.2
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -1373,7 +1373,7 @@ TrailRenderer:
   m_Time: 1
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 0.06
+    widthMultiplier: 0.1
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -1466,7 +1466,7 @@ TrailRenderer:
   m_Time: 1
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 0.06
+    widthMultiplier: 0.1
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -1559,7 +1559,7 @@ TrailRenderer:
   m_Time: 1
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 0.06
+    widthMultiplier: 0.2
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -1812,8 +1812,8 @@ MonoBehaviour:
   ParamStrength: 1.2
   ParamFrequency: 0.2
   ParamFourier: 2
-  MinXLimit: -7.48
-  MaxYLimit: 2.62
+  MinXLimit: -14.98
+  MaxYLimit: 5.23
   YOffset: 0
   Speed: 0.05
 --- !u!114 &114339472748844570
@@ -2458,8 +2458,8 @@ MonoBehaviour:
   ParamStrength: 1.3
   ParamFrequency: 0.4
   ParamFourier: 1
-  MinXLimit: -7.48
-  MaxYLimit: 2.62
+  MinXLimit: -14.98
+  MaxYLimit: 5.23
   YOffset: 0
   Speed: 0.05
 --- !u!114 &114974759402260080
