@@ -80,6 +80,7 @@ public class Mouse : MonoBehaviour
         {
             _renderMap.ClearAllTiles();
             _player.SetObjective(mousePosition);
+            Camera.main.GetComponent<MapCamera>().ReCenter();
         }
         else if (_prevPos != mousePosition)
         {
