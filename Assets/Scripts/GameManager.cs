@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     }
 
     public AudioSource GameOverSoundSource;
+    public AudioSource WinSoundSource;
 
     private ALivingEntityController[] _entities;
     private bool _end;
@@ -133,6 +134,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator GotoNextLevel()
     {
+        WinSoundSource.Play();
         yield return new WaitForSeconds(3);
         SceneManager.LoadScene(NextLevel);
     }
