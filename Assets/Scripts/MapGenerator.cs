@@ -122,6 +122,7 @@ public class MapGenerator : AMapGenerator
 
     public bool GenerateFromRoom(Grid room, float prob, Direction.to from)
     {
+        print(Cap);
         if (Cap <= 0) return false;
         Cap--;
         if (room == null)
@@ -131,6 +132,7 @@ public class MapGenerator : AMapGenerator
         foreach (RoomDoor door in theRoom.Doors)
         {
             if (!(Random.Range(0, 100) < prob * 100) || door.Dir == room.GetComponent<Room>().From) continue;
+            if (Cap <= 0) return false;
             Grid newRoom = GenerateFromDoor(door, room.GetComponent<Room>().DoorPos(door));
             AddToGrid(newRoom);
             GenerateFromRoom(newRoom, prob * Rate, from);
