@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -83,5 +84,10 @@ public class Room : MonoBehaviour
             Vector2Int pos = DoorPos(door);
             Gizmos.DrawSphere(new Vector3(pos.x, pos.y, 0) + transform.position + new Vector3(0.5f, 0.5f, 0f), 0.2f);
         }
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawLine(new Vector3(0, 0), new Vector3(Size.x, 0));
+        Gizmos.DrawLine(new Vector3(0, 0), new Vector3(0, Size.y));
+        Gizmos.DrawLine(new Vector3(Size.x, 0), new Vector3(Size.x, Size.y));
+        Gizmos.DrawLine(new Vector3(0, Size.y), new Vector3(Size.x, Size.y));
     }
 }
