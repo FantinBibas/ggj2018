@@ -308,7 +308,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1526382290769210}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.5, y: 4.5, z: 0}
+  m_LocalPosition: {x: 3.5, y: 2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4191274911251244}
@@ -443,8 +443,9 @@ MonoBehaviour:
   MovePerTurn: 4
   LoopMode: 0
   Waypoints:
-  - {x: 10, y: 0}
-  - {x: 0, y: 0}
+  - {x: 0, y: 2}
+  - {x: 9, y: 2}
+  - {x: 9, y: 4}
   AudioRange: 2
   ViewRange: 10
   ViewAngle: 120
