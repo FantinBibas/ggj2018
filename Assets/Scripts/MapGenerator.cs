@@ -17,6 +17,9 @@ public class MapGenerator : AMapGenerator
     [Range(0, 100)]
     public ushort PathSize = 15;
     
+    [Range(0, 100)]
+    public ushort StationsSpawnRate = 15;
+    
     [Range(1, 500)]
     public int Cap = 100;
 
@@ -162,6 +165,15 @@ public class MapGenerator : AMapGenerator
             }
 
             CopySquare(tilemap, tmp, room.Pos);
+        }
+
+        if (room.RadarSpawns.Length > 0 && Random.Range(0, 100) < StationsSpawnRate)
+        {
+            uint size = (uint) room.RadarSpawns.Length;
+            Vector2Int stationPosition = room.RadarSpawns[(int) Random.Range(0, size)];
+            stationPosition.x += room.Pos.x;
+            stationPosition.y += room.Pos.y;
+            GameManager.Instance.Map.Stations.Add(new Vector3Int(stationPosition.x, stationPosition.y, 0));
         }
 
         foreach (GuardController guard in toAdd.GetComponentsInChildren<GuardController>())
