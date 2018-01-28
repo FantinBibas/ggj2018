@@ -12,13 +12,89 @@ public class MapGenerator : AMapGenerator
     public Tile PathTile;
     
     [Range(0, 100)]
+    public Tile WallTile;
+    public Tile FillTile;
     public ushort PathSize = 15;
     
     [Range(1, 500)]
-    public int cap = 100;
+    public int Cap = 100;
 
     [Range(0.01f, 0.99f)]
     public float Rate = 1f;
+
+    private BoundsInt GetGridBounds()
+    {
+        BoundsInt bounds = new BoundsInt();
+        foreach (Tilemap tm in _grid.GetComponentsInChildren<Tilemap>())
+        {
+            BoundsInt cellBounds = tm.cellBounds;
+            if (bounds.xMin > cellBounds.xMin)
+                bounds.xMin = cellBounds.xMin;
+            if (bounds.xMax < cellBounds.xMax)
+                bounds.xMax = cellBounds.xMax;
+            if (bounds.yMin > cellBounds.yMin)
+                bounds.yMin = cellBounds.yMin;
+            if (bounds.yMax < cellBounds.yMax)
+                bounds.yMax = cellBounds.yMax;
+        }
+        return bounds;
+    }
+
+    private void FillWalls()
+    {
+        if (WallTile == null)
+            return;
+        GameObject go = new GameObject("__walls");
+        Tilemap tm = go.AddComponent<Tilemap>();
+        TilemapRenderer r = go.AddComponent<TilemapRenderer>();
+        r.sortingLayerName = "Objects";
+        go.tag = "Solid";
+        BoundsInt bounds = GetGridBounds();
+        Tilemap[] tilemaps = _grid.GetComponentsInChildren<Tilemap>()
+            .Where(t => !t.gameObject.CompareTag("Ignore")).ToArray();
+        for (int x = bounds.xMin - 1; x < bounds.xMax + 1; x++)
+        {
+            for (int y = bounds.yMin - 1; y < bounds.yMax + 1; y++)
+            {
+                Vector3Int pos = new Vector3Int(x, y, 0);
+                if (tilemaps.Any(t => t.HasTile(pos)))
+                    continue;
+                Vector3Int top = new Vector3Int(x, y + 1, 0);
+                Vector3Int left = new Vector3Int(x + 1, y, 0);
+                Vector3Int bot = new Vector3Int(x, y - 1, 0);
+                Vector3Int right = new Vector3Int(x - 1, y, 0);
+                if (tilemaps.Any(t => t.HasTile(top) || t.HasTile(left) || t.HasTile(bot) || t.HasTile(right)))
+                    tm.SetTile(pos, WallTile);
+            }
+        }
+        go.transform.parent = _grid.transform;
+    }
+
+    private void FillEmpty()
+    {
+        if (FillTile == null)
+            return;
+        GameObject go = new GameObject("__fill");
+        Tilemap tm = go.AddComponent<Tilemap>();
+        TilemapRenderer r = go.AddComponent<TilemapRenderer>();
+        r.sortingLayerName = "Ground";
+        if (WallTile != null)
+            go.tag = "Ignore";
+        BoundsInt bounds = GetGridBounds();
+        Tilemap[] tilemaps = _grid.GetComponentsInChildren<Tilemap>()
+            .Where(t => !t.gameObject.CompareTag("Ignore")).ToArray();
+        for (int x = bounds.xMin - 1; x < bounds.xMax + 1; x++)
+        {
+            for (int y = bounds.yMin - 1; y < bounds.yMax + 1; y++)
+            {
+                Vector3Int pos = new Vector3Int(x, y, 0);
+                if (tilemaps.Any(t => t.HasTile(pos)))
+                    continue;
+                tm.SetTile(pos, FillTile);
+            }
+        }
+        go.transform.parent = _grid.transform;
+    }
 
     public override void GenerateMap(Grid grid)
     {
@@ -27,12 +103,14 @@ public class MapGenerator : AMapGenerator
         FirstNode.GetComponent<Room>().From = Direction.to.NONE;
         AddToGrid(FirstNode);
         GenerateFromRoom(FirstNode, 1, Direction.to.NONE);
+        FillWalls();
+        FillEmpty();
     }
 
     public bool GenerateFromRoom(Grid room, float prob, Direction.to from)
     {
-        if (cap <= 0) return false;
-        cap--;
+        if (Cap <= 0) return false;
+        Cap--;
         if (room == null)
             return false;
         Room theRoom = room.GetComponent<Room>();
@@ -103,25 +181,26 @@ public class MapGenerator : AMapGenerator
         int maxTry = 0;
         do
         {
-            if (maxTry > 100) return null;
-            for (int i = 0; i < PathSize; i++) {
+            for (int i = 0; i < PathSize; i++)
+            {
                 pos = Direction.GoAuto(new Vector2Int(pos.x, pos.y), 1, door.Dir);
                 length++;
             }
             if (tmp && !TestCol(tmp, pos, new Vector2Int(1, 1)))
                 return null;
             room = AvailableRooms[Random.Range(0, AvailableRooms.Length)];
-            roomPos = CanInsertRoom(room.GetComponent<Room>(), new Vector2Int(pos.x, pos.y), door.Dir);    
+            roomPos = CanInsertRoom(room.GetComponent<Room>(), new Vector2Int(pos.x, pos.y), door.Dir);
         } while (roomPos == null);
-        
-        drawPath(pos, length, room.GetComponent<Room>().From);
+
+        DrawPath(pos, length, room.GetComponent<Room>().From);
         room.GetComponent<Room>().Pos = roomPos.GetValueOrDefault();
         return room;
     }
 
-    public void drawPath(Vector2Int pos, int length, Direction.to dir)
+    public void DrawPath(Vector2Int pos, int length, Direction.to dir)
     {
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < length; i++)
+        {
             Tilemap firstOrDefault = _grid.GetComponentsInChildren<Tilemap>()
                 .FirstOrDefault(t => t.gameObject.name == "Path");
             if (firstOrDefault != null)
@@ -130,17 +209,15 @@ public class MapGenerator : AMapGenerator
             pos = Direction.GoAuto(new Vector2Int(pos.x, pos.y), 1, dir);
         }
     }
-    
+
     public Vector2Int? CanInsertRoom(Room room, Vector2Int pos, Direction.to dir)
     {
-        Vector2Int roomPos;
-        Tilemap tmp;
         foreach (RoomDoor door in room.Doors)
         {
             if (Direction.GetOpposite(door.Dir) != dir) continue;
             room.From = door.Dir;
-            roomPos = room.PosFromDoor(door, pos);
-            tmp = _grid.GetComponentsInChildren<Tilemap>().FirstOrDefault(t => t.gameObject.name == "Path");
+            Vector2Int roomPos = room.PosFromDoor(door, pos);
+            Tilemap tmp = _grid.GetComponentsInChildren<Tilemap>().FirstOrDefault(t => t.gameObject.name == "Path");
             if (!TestCol(tmp, roomPos, room.Size)) continue;
             tmp = _grid.GetComponentsInChildren<Tilemap>().FirstOrDefault(t => t.gameObject.name == "Ground");
             if (!TestCol(tmp, roomPos, room.Size)) continue;
