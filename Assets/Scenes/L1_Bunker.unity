@@ -166,7 +166,7 @@ Prefab:
     - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
         type: 2}
       propertyPath: Cap
-      value: 20
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114738480163563510, guid: 9fd34f2a738407841b39daa9853901f2,
         type: 2}
@@ -183,6 +183,11 @@ Prefab:
       propertyPath: ClosestStationIndicator
       value: 
       objectReference: {fileID: 376676254}
+    - target: {fileID: 114738480163563510, guid: 9fd34f2a738407841b39daa9853901f2,
+        type: 2}
+      propertyPath: ClosestStationIndicatorOffset
+      value: -135
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9fd34f2a738407841b39daa9853901f2, type: 2}
   m_IsPrefabParent: 0
