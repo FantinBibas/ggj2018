@@ -62,7 +62,7 @@ public class Map : MonoBehaviour
         tilerenderer.sortingLayerName = "Objects";
         tilemapGameObject.tag = "Ignore";
         foreach (Vector3Int station in Stations)
-            tilemap.SetTile(station + TopLeft, StationTile);
+            tilemap.SetTile(station, StationTile);
         CalculateBounds();
         CreateNodes();
     }

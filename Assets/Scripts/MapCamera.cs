@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Camera))]
 public class MapCamera : MonoBehaviour
@@ -68,6 +69,8 @@ public class MapCamera : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            SceneManager.LoadScene(0);
         if (!_follow) return;
         PlayerController player = GameManager.Instance.Player;
         if (Mathf.Abs(Input.GetAxis("Horizontal")) > float.Epsilon
