@@ -131,6 +131,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
+        type: 2}
+      propertyPath: AvailableRooms.Array.size
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 4504090479563626, guid: 9fd34f2a738407841b39daa9853901f2, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -166,7 +171,7 @@ Prefab:
     - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
         type: 2}
       propertyPath: Cap
-      value: 2
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 114738480163563510, guid: 9fd34f2a738407841b39daa9853901f2,
         type: 2}
@@ -188,6 +193,89 @@ Prefab:
       propertyPath: ClosestStationIndicatorOffset
       value: -135
       objectReference: {fileID: 0}
+    - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
+        type: 2}
+      propertyPath: AvailableRooms.Array.data[8]
+      value: 
+      objectReference: {fileID: 2569400266284099018, guid: 75024190fd4d78642a2eb7deacb965e7,
+        type: 2}
+    - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
+        type: 2}
+      propertyPath: AvailableRooms.Array.data[9]
+      value: 
+      objectReference: {fileID: 2569400266827373378, guid: bedf21de6e14e4b4ba064fba102fba4b,
+        type: 2}
+    - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
+        type: 2}
+      propertyPath: AvailableRooms.Array.data[10]
+      value: 
+      objectReference: {fileID: 2569400267635614756, guid: 8119cf0d4d9ecdd46a29eb35a0fa4ef1,
+        type: 2}
+    - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
+        type: 2}
+      propertyPath: AvailableRooms.Array.data[11]
+      value: 
+      objectReference: {fileID: 2569400268515008544, guid: 6260b568d1cb17d468ef6ceb60f4cdab,
+        type: 2}
+    - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
+        type: 2}
+      propertyPath: AvailableRooms.Array.data[1]
+      value: 
+      objectReference: {fileID: 2569400265749501116, guid: 6453dfca44a9aa0498aed158ae8dda2a,
+        type: 2}
+    - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
+        type: 2}
+      propertyPath: AvailableRooms.Array.data[2]
+      value: 
+      objectReference: {fileID: 2569400266832831766, guid: 07673e0649be9fd47a1513a3908cc6b6,
+        type: 2}
+    - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
+        type: 2}
+      propertyPath: AvailableRooms.Array.data[3]
+      value: 
+      objectReference: {fileID: 2569400265323850022, guid: 78682789e89fcd9499dc90773d655bbb,
+        type: 2}
+    - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
+        type: 2}
+      propertyPath: AvailableRooms.Array.data[4]
+      value: 
+      objectReference: {fileID: 2569400265766337426, guid: 2038f29db5cdac946b90544186b0f304,
+        type: 2}
+    - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
+        type: 2}
+      propertyPath: AvailableRooms.Array.data[5]
+      value: 
+      objectReference: {fileID: 2569400265741328266, guid: 72f6b0b791a1aa44693aca11b8ca997c,
+        type: 2}
+    - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
+        type: 2}
+      propertyPath: AvailableRooms.Array.data[6]
+      value: 
+      objectReference: {fileID: 2569400265747382318, guid: ca77aab16be21d04f95988fb1e91d70c,
+        type: 2}
+    - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
+        type: 2}
+      propertyPath: AvailableRooms.Array.data[7]
+      value: 
+      objectReference: {fileID: 2569400268050673576, guid: cf061d01b506a774095da18f13c7bb12,
+        type: 2}
+    - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
+        type: 2}
+      propertyPath: FirstNode
+      value: 
+      objectReference: {fileID: 2569400267635614756, guid: 8119cf0d4d9ecdd46a29eb35a0fa4ef1,
+        type: 2}
+    - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
+        type: 2}
+      propertyPath: StationsSpawnRate
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
+        type: 2}
+      propertyPath: AvailableRooms.Array.data[12]
+      value: 
+      objectReference: {fileID: 2569400265751065570, guid: 37a42911766c3cc4f88bc01e14f39a5b,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9fd34f2a738407841b39daa9853901f2, type: 2}
   m_IsPrefabParent: 0

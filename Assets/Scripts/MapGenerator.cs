@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -233,8 +234,21 @@ public class MapGenerator : AMapGenerator
         }
     }
 
+    public static void Shuffle<T>(IList<T> list)  
+    {  
+        int n = list.Count;  
+        while (n > 1) {  
+            n--;  
+            int k = Random.Range(0, n + 1);  
+            T value = list[k];  
+            list[k] = list[n];  
+            list[n] = value;  
+        }  
+    }
+    
     public Vector2Int? CanInsertRoom(Room room, Vector2Int pos, Direction.to dir)
     {
+        RoomDoor[] doorSort = room.Doors.OrderBy(x => Random.Range(0, room.Doors.Count())).ToArray();
         foreach (RoomDoor door in room.Doors)
         {
             if (Direction.GetOpposite(door.Dir) != dir) continue;
