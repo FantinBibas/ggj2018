@@ -57,9 +57,8 @@ public class GameManager : MonoBehaviour
         if (MapGenerator != null)
             MapGenerator.GenerateMap(Map.Grid);
         Map.Init();
-        if (Map.Stations.Count == 0) {
+        if (Map.Stations.Count == 0)
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
         _entities = FindObjectsOfType<ALivingEntityController>().ToArray();
         Player = FindObjectOfType<PlayerController>();
         foreach (ALivingEntityController e in _entities)
@@ -132,10 +131,9 @@ public class GameManager : MonoBehaviour
         cam.StartFollowing();
     }
 
-    private IEnumerator GotoNextLevel(bool instant = false)
+    private IEnumerator GotoNextLevel()
     {
-        if (!instant)
-            yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(3);
         SceneManager.LoadScene(NextLevel);
     }
 

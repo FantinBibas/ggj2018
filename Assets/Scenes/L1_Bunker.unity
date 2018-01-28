@@ -171,7 +171,7 @@ Prefab:
     - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
         type: 2}
       propertyPath: Cap
-      value: 60
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 114738480163563510, guid: 9fd34f2a738407841b39daa9853901f2,
         type: 2}
@@ -293,6 +293,11 @@ Prefab:
       value: 
       objectReference: {fileID: 2569400265751065570, guid: 37a42911766c3cc4f88bc01e14f39a5b,
         type: 2}
+    - target: {fileID: 114817592604753250, guid: 9fd34f2a738407841b39daa9853901f2,
+        type: 2}
+      propertyPath: Rate
+      value: 0.82
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9fd34f2a738407841b39daa9853901f2, type: 2}
   m_IsPrefabParent: 0
