@@ -184,9 +184,11 @@ public class MapGenerator : AMapGenerator
             GameManager.Instance.Map.Stations.Add(new Vector3Int(stationPosition.x, stationPosition.y, 0));
         }
 
-        foreach (GuardController guard in toAdd.GetComponentsInChildren<GuardController>())
+        foreach (Transform child in toAdd.transform)
         {
-            GameObject go = Instantiate(guard.gameObject);
+            if (child.GetComponent<Tilemap>() != null)
+                continue;
+            GameObject go = Instantiate(child.gameObject);
             go.transform.parent = _grid.transform;
             go.transform.position += new Vector3(room.Pos.x, room.Pos.y);
         }
@@ -197,9 +199,7 @@ public class MapGenerator : AMapGenerator
         Grid room;
         Vector2Int? roomPos;
         int length = 1;
-        Vector2Int initPos = pos;
         Tilemap tmp = _grid.GetComponentsInChildren<Tilemap>().FirstOrDefault(t => t.gameObject.name == "Ground");
-        int maxTry = 0;
         do
         {
             for (int i = 0; i < PathSize; i++)

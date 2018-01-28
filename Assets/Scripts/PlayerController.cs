@@ -37,5 +37,7 @@ protected override IEnumerator OnMove()
         if (!GameManager.Instance.Map.IsStation(Position)) yield break;
         yield return GameManager.Instance.ShowMinigame();
         GameManager.Instance.Map.RemoveStationAt(Position);
+        if (GameManager.Instance.Map.Stations.Count == 0)
+            GameManager.Instance.Win();
     }
 }

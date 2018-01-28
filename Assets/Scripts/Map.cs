@@ -14,7 +14,6 @@ public class Map : MonoBehaviour
     public Tile StationTile;
     public List<Vector3Int> Stations;
 
-
     public Grid Grid { get; private set; }
 
     public Vector3Int TopLeft
@@ -152,6 +151,8 @@ public class Map : MonoBehaviour
             return new Vector3Int(node.X - X, node.Y - Y, 0);
         }
     }
+    
+    private const int A_STAR_LIMIT = 100;
 
     public Path NavigateTo(Vector3Int from, Vector3Int to)
     {
@@ -191,6 +192,8 @@ public class Map : MonoBehaviour
                 if (!openSet.Contains(node))
                     openSet.Add(node);
                 int tentativeGScore = current.GScore + 1;
+                if (tentativeGScore > A_STAR_LIMIT)
+                    return null;
                 if (tentativeGScore >= node.GScore)
                     continue;
                 node.GScore = tentativeGScore;
