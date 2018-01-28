@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class GameManager : MonoBehaviour
     }
 
     public AMapGenerator MapGenerator;
+
+    public Canvas GameOverPrefab;
 
     public PlayerController Player { get; private set; }
 
@@ -57,9 +60,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
         while (!_end)
         {
-            foreach (ALivingEntityController entity in _entities)
-                StartCoroutine(entity.DoTurn());
-            while (_entities.Any(e => e.IsCurrentTurn))
+            Coroutine[] coroutines = _entities.Select(entity => StartCoroutine(entity.DoTurn())).ToArray();
+            while (!_end && _entities.Any(e => e.IsCurrentTurn))
                 yield return new WaitForEndOfFrame();
         }
     }
@@ -67,6 +69,7 @@ public class GameManager : MonoBehaviour
     public void StopGame()
     {
         _end = true;
+        StopAllCoroutines();
     }
 
     public IEnumerator ShowMinigame()
@@ -79,6 +82,22 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3);
         Destroy(minigame.gameObject);
         Map.gameObject.gameObject.SetActive(true);
+    }
+
+
+    private static IEnumerator Restart()
+    {
+        yield return new WaitForSeconds(3);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    
+    public void GameOver()
+    {
+        Camera.main.GetComponent<MapCamera>().StopFollowing();
+        StopGame();
+        Map.gameObject.SetActive(false);
+        Instantiate(GameOverPrefab);
+        StartCoroutine(Restart());
     }
 
 
