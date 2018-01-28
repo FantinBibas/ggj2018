@@ -444,6 +444,7 @@ MonoBehaviour:
   LoopMode: 0
   Waypoints:
   - {x: 10, y: 0}
+  - {x: 0, y: 0}
   AudioRange: 2
   ViewRange: 10
   ViewAngle: 120
