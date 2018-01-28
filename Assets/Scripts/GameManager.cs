@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
 
     public Text StationsLeftText;
     public GameObject ClosestStationIndicator;
+    [Range(-180, 180)]
+    public float ClosestStationIndicatorOffset;
 
     public bool PlayerTurn
     {
@@ -71,17 +73,19 @@ public class GameManager : MonoBehaviour
         {
             Vector3Int? closest = null;
             float minDist = 0;
+            Vector3Int playerPosition = Player.Position + Map.TopLeft;
             foreach (Vector3Int station in Map.Stations)
             {
-                float tmpDist = Vector3Int.Distance(Player.Position + Map.TopLeft, station);
+                float tmpDist = Vector3Int.Distance(playerPosition, station);
                 if (closest != null && !(tmpDist < minDist)) continue;
                 closest = station;
                 minDist = tmpDist;
             }
 
             if (closest == null) return;
-            float angle = Vector3.SignedAngle(Player.Position + Map.TopLeft, closest.Value, Vector3.back);
-            ClosestStationIndicator.transform.eulerAngles = new Vector3(0, 0, angle);
+            float angle = Mathf.Atan2(closest.Value.x - playerPosition.x, playerPosition.y - closest.Value.y);
+            angle = angle * Mathf.Rad2Deg;
+            ClosestStationIndicator.transform.eulerAngles = new Vector3(0, 0, angle + ClosestStationIndicatorOffset);
         }
         StationsLeftText.text = Map.Stations.Count.ToString();
     }
