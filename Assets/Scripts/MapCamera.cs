@@ -32,7 +32,7 @@ public class MapCamera : MonoBehaviour
         transform.position = pos;
     }
 
-    private void CenterOn(Vector3Int pos)
+    private void CenterOn(Vector3Int pos, bool instant = false)
     {
         if (_moveCoroutine != null)
             StopCoroutine(_moveCoroutine);
@@ -50,7 +50,10 @@ public class MapCamera : MonoBehaviour
         float maxy = Mathf.Max(map.Y + map.Height - hh + 1, centery + 1);
         y = Math.Min(maxy, Math.Max(miny, y));
         Vector3 target = new Vector3(x, y, _camera.transform.position.z);
-        _moveCoroutine = StartCoroutine(MoveTo(target));
+        if (instant)
+            transform.position = target;
+        else
+            _moveCoroutine = StartCoroutine(MoveTo(target));
     }
 
     private void FreeMove()
@@ -95,6 +98,9 @@ public class MapCamera : MonoBehaviour
     public void StartFollowing()
     {
         _follow = true;
-        Update();
+        _freeMov = false;
+        PlayerController player = GameManager.Instance.Player;
+        CenterOn(player.Position, true);
+        _currentPos = player.Position;
     }
 }

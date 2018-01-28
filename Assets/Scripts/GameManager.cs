@@ -85,8 +85,8 @@ public class GameManager : MonoBehaviour
             yield return new WaitForEndOfFrame();
         yield return new WaitForSeconds(3);
         Destroy(minigame.gameObject);
-        cam.StartFollowing();
         Map.gameObject.gameObject.SetActive(true);
+        cam.StartFollowing();
     }
 
 
