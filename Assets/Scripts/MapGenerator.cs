@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -15,7 +15,7 @@ public class MapGenerator : AMapGenerator
     public Tile FillTile;
     
     [Range(0, 100)]
-    public ushort PathSize = 15;
+    public ushort PathSize = 3;
     
     [Range(0, 100)]
     public ushort StationsSpawnRate = 15;
@@ -68,7 +68,14 @@ public class MapGenerator : AMapGenerator
                 Vector3Int left = new Vector3Int(x + 1, y, 0);
                 Vector3Int bot = new Vector3Int(x, y - 1, 0);
                 Vector3Int right = new Vector3Int(x - 1, y, 0);
-                if (tilemaps.Any(t => t.HasTile(top) || t.HasTile(left) || t.HasTile(bot) || t.HasTile(right)))
+                Vector3Int topleft = new Vector3Int(x - 1, y + 1, 0);
+                Vector3Int botleft = new Vector3Int(x - 1, y - 1, 0);
+                Vector3Int topright = new Vector3Int(x + 1, y + 1, 0);
+                Vector3Int botright = new Vector3Int(x + 1, y - 1, 0);
+                if (tilemaps.Any(t => t.HasTile(top) || t.HasTile(left) || 
+                                      t.HasTile(bot) || t.HasTile(right) ||
+                                      t.HasTile(topleft) || t.HasTile(botleft) ||
+                                      t.HasTile(topright) || t.HasTile(botright)))
                     tm.SetTile(pos, WallTile);
             }
         }
