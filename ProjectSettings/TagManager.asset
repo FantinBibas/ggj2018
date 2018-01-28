@@ -64,3 +64,6 @@ TagManager:
   - name: Path
     uniqueID: 3272304805
     locked: 0
+  - name: Light
+    uniqueID: 3371135313
+    locked: 0
