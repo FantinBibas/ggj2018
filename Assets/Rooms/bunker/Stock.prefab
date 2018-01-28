@@ -161,7 +161,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Size: {x: 3, y: 3}
-  RadarSpawns: []
+  RadarSpawns:
+  - {x: 1, y: 2}
 --- !u!19719996 &2113883507366187176
 TilemapCollider2D:
   m_ObjectHideFlags: 1
