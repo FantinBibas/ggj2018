@@ -333,7 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a7e91de37649e74abd8e17e5a7f6b4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovePerTurn: 10
+  MovePerTurn: 64
 --- !u!114 &114907041055326232
 MonoBehaviour:
   m_ObjectHideFlags: 1

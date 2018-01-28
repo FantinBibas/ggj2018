@@ -40,7 +40,7 @@ public class Mouse : MonoBehaviour
 
     private bool IsValidCoord(Vector3Int pos)
     {
-        return _map.Width > pos.x && pos.x >= 0 && _map.Height > pos.y && pos.y >= 0;
+        return _map.Width > pos.x && pos.x >= 0 && _map.Height > pos.y && pos.y >= 0 && !_map.IsSolid(pos);
     }
 
     private Tile GetTile(Vector3 direction)
@@ -71,7 +71,11 @@ public class Mouse : MonoBehaviour
     {
         if (!GameManager.Instance.PlayerTurn || _player.IsMoving || _player.HasObjective()) return;
         Vector3Int mousePosition = PosOnMap();
-        if (!IsValidCoord(mousePosition)) return;
+        if (!IsValidCoord(mousePosition))
+        {
+            _renderMap.ClearAllTiles();
+            return;
+        }
         if (Input.GetMouseButton(1))
         {
             _renderMap.ClearAllTiles();
