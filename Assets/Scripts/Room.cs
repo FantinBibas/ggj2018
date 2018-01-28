@@ -7,6 +7,16 @@ public class Room : MonoBehaviour
 {
     public Vector2Int Size;
     public Direction.to From { get; set; }
+    public Vector2Int[] RadarSpawns;
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        foreach (Vector2Int radarSpawn in RadarSpawns)
+        {
+            Gizmos.DrawWireSphere(new Vector3(radarSpawn.x + 0.5f, radarSpawn.y + 0.5f, 0), 0.3f);
+        }
+    }
 
     private Vector2Int HalfSize
     {
