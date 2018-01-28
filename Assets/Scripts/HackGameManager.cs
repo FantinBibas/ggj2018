@@ -31,7 +31,7 @@ public class HackGameManager : MonoBehaviour
     private bool AreSettingsOk()
     {
         return Mathf.RoundToInt(PlayerSignal.ParamFourier) == Mathf.RoundToInt(OriginalSignal.ParamFourier)
-               && Mathf.RoundToInt(PlayerSignal.ParamFrequency * 100) == Mathf.RoundToInt(OriginalSignal.ParamFrequency * 100)
+               && Mathf.RoundToInt(PlayerSignal.ParamFrequency * 20) == Mathf.RoundToInt(OriginalSignal.ParamFrequency * 20)
                && Mathf.RoundToInt(PlayerSignal.ParamStrength * 10) == Mathf.RoundToInt(OriginalSignal.ParamStrength * 10);
     }
 

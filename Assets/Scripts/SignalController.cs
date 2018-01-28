@@ -108,8 +108,9 @@ public class SignalController : MonoBehaviour
 
     public void RandomizeSignal()
     {
-        ParamStrength = (float) Random.Range(0, (int) (MAX_STRENGTH - MIN_STRENGTH) * 10) / 10 + (float) MIN_STRENGTH;
-        ParamFrequency = (float) Random.Range(0, (int) (MAX_FREQUENCY - MIN_FREQUENCY) * 100) / 100 + (float) MIN_FREQUENCY;
+        ParamStrength = (float) Random.Range(0, (int) ((MAX_STRENGTH - MIN_STRENGTH) * 10)) / 10 + (float) MIN_STRENGTH;
+        ParamFrequency = (float) Random.Range(0, (int) ((MAX_FREQUENCY - MIN_FREQUENCY) * 20)) / 20 + (float) MIN_FREQUENCY;
+        Debug.Log((int) ((MAX_FREQUENCY - MIN_FREQUENCY) * 20));
         ParamFourier = Random.Range((int) MIN_FOURIER, (int) MAX_FOURIER);
     }
 
